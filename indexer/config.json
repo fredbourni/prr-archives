@@ -1,0 +1,168 @@
+{
+    "shows": [
+        {
+            "name": "L'îlot Punk Rock",
+            "regex": ".lot.*Punk"
+        },
+        {
+            "name": "Le Pink Punk Show",
+            "regex": "P.nk[ ]+P.nk"
+        },
+        {
+            "name": "Babadok Főhkhöff Radio",
+            "regex": "Babadok"
+        },
+        {
+            "name": "Syndrome Punk Rock",
+            "regex": "S.ndrom.*Punk"
+        },
+        {
+            "name": "Le Punk Rock Show du Matin",
+            "regex": "Punk.*Matin"
+        },
+        {
+            "name": "The Beer Punk Show en Studio",
+            "regex": "Beer.*Punk"
+        },
+        {
+            "name": "Wayback Punk Machine",
+            "regex": "Wayba.*Machin"
+        },
+        {
+            "name": "Le Big Bro Show",
+            "regex": "Big[ ]?Bro"
+        },
+        {
+            "name": "Un Peu d'PR",
+            "regex": "peu.*PR"
+        },
+        {
+            "name": "Sewer Spewer",
+            "regex": "Sewer"
+        },
+        {
+            "name": "No Name Show",
+            "regex": "No.*Name"
+        },
+        {
+            "name": "The Yuri Rawk Show",
+            "regex": "Yuri.*Rawk"
+        },
+        {
+            "name": "Sweet & Spicy",
+            "regex": "Sweet.*Spicy",
+            "extra_tags": [
+                "Ska punk",
+                "Hardcore punk"
+            ]
+        },
+        {
+            "name": "The Musik Taste",
+            "regex": "Musik.*Taste"
+        },
+        {
+            "name": "Lil Bro Show",
+            "regex": "(Lil|Xav|Teen|Petit).*Bro"
+        },
+        {
+            "name": "Esprit de Core",
+            "regex": "esprit.*core",
+            "extra_tags": [
+                "Metalcore",
+                "Post-Hardcore",
+                "Hardcore punk"
+            ]
+        },
+        {
+            "name": "Le Pink Punk Show",
+            "regex": "Pink.*Punk"
+        },
+        {
+            "name": "C'Pas pour les Doux",
+            "regex": "pas.*doux"
+        },
+        {
+            "name": "Le Combat des Playlists",
+            "regex": "Combat.*Playlists"
+        },
+        {
+            "name": "La Zone Hardcore",
+            "regex": "Zone.*Hardcore"
+        },
+        {
+            "name": "Alien Punk Show",
+            "regex": "Alien.*Punk"
+        },
+        {
+            "name": "Le Suppléant Punk Rock",
+            "regex": "Suppl.ant.*Punk"
+        },
+        {
+            "name": "PRR on PRR",
+            "regex": "PRR.*PRR"
+        },
+        {
+            "name": "Le Show des Nouveautés",
+            "regex": "Show.*Nouveaut.*"
+        },
+        {
+            "name": "Le P'tit Moment Trash",
+            "regex": "Moment.*T.?rash",
+            "extra_tags": [
+                "Trash",
+                "Metal"
+            ]
+        },
+        {
+            "name": "Paco Vient Danser le Ska",
+            "regex": "Paco.*Ska",
+            "extra_tags": [
+                "Ska punk"
+            ]
+        },
+        {
+            "name": "Paco Autour du Monde",
+            "regex": "Paco.*Monde"
+        },
+        {
+            "name": "HebdoPunk",
+            "regex": "HebdoPunk"
+        },
+        {
+            "name": "Le P'tit Moment Trash",
+            "regex": "Moment.*T.?rash"
+        },
+        {
+            "name": "123 Punk",
+            "regex": "1.?2.?3.*Punk"
+        },
+        {
+            "name": "Le Dreadhawk Show",
+            "regex": "Dreadhawk"
+        },
+        {
+            "name": "Le Punk Rock Show",
+            "regex": "Punk.*Rock.*Show"
+        },
+        {
+            "name": "Show du Retour",
+            "regex": "Show.*Retour"
+        },
+        {
+            "name": "Welcome to PRR",
+            "regex": "Welcome.*PRR"
+        },
+        {
+            "name": "Punkanormal Hebdo",
+            "regex": "Punkanormal"
+        },
+        {
+            "name": "Shows Spéciaux",
+            "regex": "(sp.cial|entrevue|interview|jasette|impro|dimanche|parlons|news|listening|playlist|retrospective|mini show)"
+        }
+    ],
+    "tag_mappings": {
+        "Hardcore punk": "Hardcore",
+        "Ska": "Ska punk"
+    }
+}
