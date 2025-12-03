@@ -20,7 +20,7 @@ export const useShows = (): UseShowsResult => {
     const fetchShows = async () => {
       try {
         setIsLoading(true);
-        const response = await fetch('/shows.json');
+        const response = await fetch('./shows.json');
         if (!response.ok) {
           throw new Error('Failed to load shows');
         }
