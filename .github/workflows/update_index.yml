@@ -39,3 +39,8 @@ jobs:
             git commit -m "Update shows index"
             git push
           fi
+
+      - name: Trigger Deploy Workflow
+        run: gh workflow run deploy.yml
+        env:
+          GH_TOKEN: ${{ github.token }}
