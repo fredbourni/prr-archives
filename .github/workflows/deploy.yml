@@ -30,9 +30,6 @@ jobs:
           cd web
           npm ci
 
-      - name: Copy Index
-        run: cp shows.json web/public/shows.json
-
       - name: Build
         run: |
           cd web
