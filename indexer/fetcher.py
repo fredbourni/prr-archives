@@ -94,8 +94,8 @@ class MixcloudFetcher:
         
         Args:
             limit: Maximum number of shows to fetch. None means fetch all.
-            existing_ids: Set of show keys that are already indexed. If a show
-                with a key in this set is encountered, fetching stops early
+            existing_ids: Set of show slugs that are already indexed. If a show
+                with a slug in this set is encountered, fetching stops early
                 (incremental update optimization).
         
         Yields:
@@ -165,9 +165,11 @@ class MixcloudFetcher:
                 
                 # Check if we already have this show (incremental update)
                 show_key = show.get("key")
-                if show_key in existing_ids:
+                show_slug = show.get("slug")
+                
+                if show_slug in existing_ids:
                     logger.info(
-                        f"Found existing show '{show_key}', "
+                        f"Found existing show '{show_slug}', "
                         "stopping incremental fetch"
                     )
                     return

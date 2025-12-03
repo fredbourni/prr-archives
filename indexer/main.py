@@ -209,7 +209,7 @@ def perform_fetch_and_index(
     
     # Load existing data
     existing_data = load_existing_index(output_path)
-    existing_ids: Set[str] = {show["key"] for show in existing_data}
+    existing_ids: Set[str] = {show["slug"] for show in existing_data}
     
     # Initialize components
     try:
