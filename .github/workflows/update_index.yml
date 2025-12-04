@@ -29,6 +29,7 @@ jobs:
         run: python indexer/main.py --output web/public/shows.json
 
       - name: Commit and Push changes
+        id: commit
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
@@ -36,12 +37,15 @@ jobs:
           # Only commit if there are changes
           if git diff --staged --quiet; then
             echo "No changes to commit"
+            echo "changes=false" >> $GITHUB_OUTPUT
           else
             git commit -m "Update shows index"
             git push
+            echo "changes=true" >> $GITHUB_OUTPUT
           fi
 
       - name: Trigger Deploy Workflow
+        if: steps.commit.outputs.changes == 'true'
         run: gh workflow run deploy.yml
         env:
           GH_TOKEN: ${{ github.token }}
