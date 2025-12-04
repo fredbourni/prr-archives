@@ -2,6 +2,8 @@
 
 A static web application and indexing system to browse, search, and listen to 3000+ archived shows from [PunkRockRadio.ca](https://punkrockradio.ca) on Mixcloud.
 
+To load the application: [https://fredbourni.github.io/prr-archives/](https://fredbourni.github.io/prr-archives/)
+
 ## Overview
 
 This project provides a comprehensive archive browser for PunkRockRadio.ca shows, consisting of two main components:
@@ -29,7 +31,7 @@ This project provides a comprehensive archive browser for PunkRockRadio.ca shows
   - Category filtering with icon indicators
   - Combined filter support
 - **Multiple Sort Options**: Sort by newest, oldest, or random
-- **Infinite Scroll**: Smooth pagination loading 20 shows at a time
+- **Infinite Scroll**: Smooth pagination loading 12 shows at a time
 - **Permalink Support**: Share specific searches and shows via URL with full state synchronization
 - **Embedded Mixcloud Player**: Picture widget integration with loading states
 - **Responsive Design**: Mobile-optimized Material-UI components
