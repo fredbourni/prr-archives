@@ -7,6 +7,7 @@ import {
   Toolbar,
   Typography,
   Box,
+  Link,
 } from '@mui/material';
 import { blueGrey } from '@mui/material/colors';
 import RadioIcon from '@mui/icons-material/Radio';
@@ -39,12 +40,24 @@ function App() {
         <AppBar position="static" color="transparent" elevation={0}>
           <Container maxWidth="lg">
             <Toolbar disableGutters sx={{ justifyContent: 'flex-start' }}>
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+              <Link
+                href={window.location.origin + window.location.pathname}
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 2,
+                  textDecoration: 'none',
+                  color: 'inherit',
+                  '&:hover': {
+                    opacity: 0.8,
+                  },
+                }}
+              >
                 <RadioIcon sx={{ fontSize: '2rem' }} />
                 <Typography variant="h6" component="div" sx={{ fontWeight: 'bold' }}>
                   ARCHIVES PUNKROCKRADIO.CA
                 </Typography>
-              </Box>
+              </Link>
             </Toolbar>
           </Container>
         </AppBar>
