@@ -61,16 +61,17 @@ export const FilterBar = ({
         <TextFilter value={search} onChange={onSearchChange} />
         <YearFilter value={yearFilter} years={years} onChange={onYearChange} />
         <SortFilter value={sortOrder} onChange={onSortChange} />
-        <Button
-          variant="contained"
-          startIcon={<ShuffleIcon />}
-          onClick={onRandomClick}
-          color="secondary"
-          size="small"
-          sx={{ height: { xs: '32px', sm: '40px' } }}
-        >
-          Aléatoire
-        </Button>
+        <Tooltip title="Jouer un épisode aléatoire basé sur les filtres">
+          <Button
+            variant="contained"
+            onClick={onRandomClick}
+            color="secondary"
+            size="small"
+            sx={{ minWidth: 'auto', px: 2, height: { xs: '32px', sm: '40px' } }}
+          >
+            <ShuffleIcon fontSize="small" />
+          </Button>
+        </Tooltip>
         <Tooltip title="Copier le lien permanent">
           <Button
             variant="contained"
