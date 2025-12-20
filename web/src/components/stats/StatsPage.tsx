@@ -22,6 +22,7 @@ import { getShowImage } from '@utils/image';
 interface StatsPageProps {
     shows: Show[];
     onBack: () => void;
+    onCategoryClick: (category: string) => void;
 }
 
 interface ShowStats {
@@ -43,7 +44,7 @@ const calculateStats = (seconds: number): ShowStats => {
     return { seconds, minutes, hours, days, weeks, months };
 };
 
-export const StatsPage = ({ shows, onBack }: StatsPageProps) => {
+export const StatsPage = ({ shows, onBack, onCategoryClick }: StatsPageProps) => {
     // All shows stats
     const totalSeconds = shows.reduce((acc, show) => acc + show.audio_length, 0);
     const allStats = calculateStats(totalSeconds);
@@ -128,12 +129,14 @@ export const StatsPage = ({ shows, onBack }: StatsPageProps) => {
                     <Grid size={{ xs: 12, sm: 6, md: 4 }} key={item.category}>
                         <Card
                             elevation={0}
+                            onClick={() => onCategoryClick(item.category)}
                             sx={{
                                 height: '100%',
                                 borderRadius: 3,
                                 backgroundColor: 'rgba(255,255,255,0.03)',
                                 border: '1px solid rgba(255,255,255,0.05)',
                                 transition: 'all 0.2s ease-in-out',
+                                cursor: 'pointer',
                                 '&:hover': {
                                     transform: 'translateY(-4px)',
                                     backgroundColor: 'rgba(255,255,255,0.05)',

@@ -67,6 +67,15 @@ function App() {
     setShowStats(false);
   };
 
+  const handleCategoryClick = (category: string) => {
+    const params = new URLSearchParams(window.location.search);
+    params.delete('stats');
+    params.set('cat', category);
+    window.history.pushState({}, '', `?${params.toString()}`);
+    setShowStats(false);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   return (
     <ThemeProvider theme={darkTheme}>
       <CssBaseline />
@@ -111,7 +120,7 @@ function App() {
         </AppBar>
         <Container maxWidth="lg" sx={{ flexGrow: 1, py: 4, width: '100%' }}>
           {showStats ? (
-            <StatsPage shows={shows} onBack={handleBackFromStats} />
+            <StatsPage shows={shows} onBack={handleBackFromStats} onCategoryClick={handleCategoryClick} />
           ) : (
             <ShowList shows={shows} onStatsClick={handleStatsClick} />
           )}
