@@ -11,6 +11,8 @@ import {
 } from '@mui/material';
 import { blueGrey } from '@mui/material/colors';
 import RadioIcon from '@mui/icons-material/Radio';
+import GitHubIcon from '@mui/icons-material/GitHub';
+import IconButton from '@mui/material/IconButton';
 import { ShowList } from '@components/shows/ShowList';
 import { useShows } from '@hooks/useShows';
 import { StatsPage } from '@components/stats/StatsPage';
@@ -90,6 +92,20 @@ function App() {
                   ARCHIVES PUNKROCKRADIO.CA
                 </Typography>
               </Link>
+              <Box sx={{ flexGrow: 1 }} />
+              <IconButton
+                color="inherit"
+                href="https://github.com/fredbourni/prr-archives"
+                target="_blank"
+                rel="noopener noreferrer"
+                sx={{
+                  '&:hover': {
+                    opacity: 0.8,
+                  },
+                }}
+              >
+                <GitHubIcon fontSize="large" />
+              </IconButton>
             </Toolbar>
           </Container>
         </AppBar>
