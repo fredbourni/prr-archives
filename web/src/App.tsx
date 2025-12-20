@@ -13,6 +13,8 @@ import { blueGrey } from '@mui/material/colors';
 import RadioIcon from '@mui/icons-material/Radio';
 import { ShowList } from '@components/shows/ShowList';
 import { useShows } from '@hooks/useShows';
+import { StatsPage } from '@components/stats/StatsPage';
+import { useState, useEffect } from 'react';
 
 const darkTheme = createTheme({
   palette: {
@@ -32,6 +34,36 @@ const darkTheme = createTheme({
 
 function App() {
   const { shows } = useShows();
+  const [showStats, setShowStats] = useState(false);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    setShowStats(params.get('stats') === '1');
+  }, []);
+
+  useEffect(() => {
+    const handlePopState = () => {
+      const params = new URLSearchParams(window.location.search);
+      setShowStats(params.get('stats') === '1');
+    };
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
+
+  const handleStatsClick = () => {
+    const params = new URLSearchParams(window.location.search);
+    params.set('stats', '1');
+    window.history.pushState({}, '', `?${params.toString()}`);
+    setShowStats(true);
+  };
+
+  const handleBackFromStats = () => {
+    const params = new URLSearchParams(window.location.search);
+    params.delete('stats');
+    const newUrl = params.toString() ? `?${params.toString()}` : window.location.pathname;
+    window.history.pushState({}, '', newUrl);
+    setShowStats(false);
+  };
 
   return (
     <ThemeProvider theme={darkTheme}>
@@ -62,7 +94,11 @@ function App() {
           </Container>
         </AppBar>
         <Container maxWidth="lg" sx={{ flexGrow: 1, py: 4, width: '100%' }}>
-          <ShowList shows={shows} />
+          {showStats ? (
+            <StatsPage shows={shows} onBack={handleBackFromStats} />
+          ) : (
+            <ShowList shows={shows} onStatsClick={handleStatsClick} />
+          )}
         </Container>
       </Box>
     </ThemeProvider>

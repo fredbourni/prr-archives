@@ -2,6 +2,7 @@ import { Box, Button, Tooltip, Snackbar, Alert } from '@mui/material';
 import { useState } from 'react';
 import ShuffleIcon from '@mui/icons-material/Shuffle';
 import ShareIcon from '@mui/icons-material/Share';
+import AssessmentIcon from '@mui/icons-material/Assessment';
 import type { SortOrder } from '@hooks/useFilters';
 import { TextFilter } from './TextFilter';
 import { CategoryFilter } from './CategoryFilter';
@@ -22,6 +23,7 @@ interface FilterBarProps {
   onYearChange: (value: string) => void;
   onSortChange: (value: SortOrder) => void;
   onRandomClick: () => void;
+  onStatsClick: () => void;
 }
 
 export const FilterBar = ({
@@ -37,6 +39,7 @@ export const FilterBar = ({
   onYearChange,
   onSortChange,
   onRandomClick,
+  onStatsClick,
 }: FilterBarProps) => {
   const [showCopiedMessage, setShowCopiedMessage] = useState(false);
 
@@ -61,6 +64,17 @@ export const FilterBar = ({
         <TextFilter value={search} onChange={onSearchChange} />
         <YearFilter value={yearFilter} years={years} onChange={onYearChange} />
         <SortFilter value={sortOrder} onChange={onSortChange} />
+        <Tooltip title="Voir les statistiques">
+          <Button
+            variant="contained"
+            onClick={onStatsClick}
+            color="secondary"
+            size="small"
+            sx={{ minWidth: 'auto', px: 2, height: { xs: '32px', sm: '40px' } }}
+          >
+            <AssessmentIcon fontSize="small" />
+          </Button>
+        </Tooltip>
         <Tooltip title="Jouer un épisode aléatoire basé sur les filtres">
           <Button
             variant="contained"

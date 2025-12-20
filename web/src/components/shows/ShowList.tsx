@@ -18,9 +18,10 @@ import {
 
 interface ShowListProps {
   shows: Show[];
+  onStatsClick: () => void;
 }
 
-export const ShowList = ({ shows }: ShowListProps) => {
+export const ShowList = ({ shows, onStatsClick }: ShowListProps) => {
   const [selectedShow, setSelectedShow] = useState<Show | null>(null);
   const [playerTitle, setPlayerTitle] = useState(PLAYER_TITLE_LATEST);
 
@@ -129,6 +130,7 @@ export const ShowList = ({ shows }: ShowListProps) => {
         onYearChange={setYearFilter}
         onSortChange={setSortOrder}
         onRandomClick={handleRandomShow}
+        onStatsClick={onStatsClick}
       />
 
       <PlayerHeader title={playerTitle} show={selectedShow} />
