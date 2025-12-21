@@ -79,7 +79,7 @@ export const StatsPage = ({ shows, onBack, onCategoryClick }: StatsPageProps) =>
                 >
                     Retour
                 </Button>
-                <Typography variant="h4" component="h1" sx={{ fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: 1.5, flexGrow: 1 }}>
+                <Typography variant="h4" component="h1" sx={{ fontSize: '1.5rem', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: 1.5, flexGrow: 1 }}>
                     <AssessmentIcon fontSize="large" color="primary" />
                     Statistiques
                 </Typography>
@@ -162,6 +162,7 @@ export const StatsPage = ({ shows, onBack, onCategoryClick }: StatsPageProps) =>
                                             sx={{
                                                 fontWeight: 'bold',
                                                 lineHeight: 1.2,
+                                                fontSize: '1rem',
                                                 textOverflow: 'ellipsis'
                                             }}
                                         >
