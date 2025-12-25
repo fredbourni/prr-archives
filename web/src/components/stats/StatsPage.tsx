@@ -16,6 +16,7 @@ import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import DateRangeIcon from '@mui/icons-material/DateRange';
 import AvTimerIcon from '@mui/icons-material/AvTimer';
+import LibraryMusicIcon from '@mui/icons-material/LibraryMusic';
 import type { Show } from '@types';
 import { getShowImage } from '@utils/image';
 
@@ -40,7 +41,6 @@ const calculateStats = (seconds: number): ShowStats => {
     const days = Number((seconds / (24 * 3600)).toFixed(1));
     const weeks = Number((seconds / (7 * 24 * 3600)).toFixed(1));
     const months = Number((seconds / (30 * 24 * 3600)).toFixed(1));
-
     return { seconds, minutes, hours, days, weeks, months };
 };
 
@@ -48,6 +48,7 @@ export const StatsPage = ({ shows, onBack, onCategoryClick }: StatsPageProps) =>
     // All shows stats
     const totalSeconds = shows.reduce((acc, show) => acc + show.audio_length, 0);
     const allStats = calculateStats(totalSeconds);
+    const totalShows = shows.length;
 
     // Per show stats
     const showsByCategory = shows.reduce((acc, show) => {
@@ -101,6 +102,9 @@ export const StatsPage = ({ shows, onBack, onCategoryClick }: StatsPageProps) =>
                     Toutes les émissions
                 </Typography>
                 <Grid container spacing={3}>
+                    <Grid size={{ xs: 4, sm: 4, md: 4 }}>
+                        <StatCard label="Épisodes" value={totalShows.toLocaleString()} icon={<LibraryMusicIcon color="primary" />} />
+                    </Grid>
                     <Grid size={{ xs: 4, sm: 4, md: 4 }}>
                         <StatCard label="Minutes" value={allStats.minutes.toLocaleString()} icon={<AvTimerIcon color="info" />} />
                     </Grid>
