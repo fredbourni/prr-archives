@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { Box } from '@mui/material';
 import type { Show } from '@types';
 import { useFilters } from '@hooks/useFilters';
@@ -14,6 +14,9 @@ import {
   PLAYER_TITLE_RANDOM,
   PLAYER_TITLE_SELECTED,
   PLAYER_TITLE_PERMALINK,
+  DEFAULT_CATEGORY,
+  DEFAULT_YEAR,
+  DEFAULT_SORT_ORDER,
 } from '@constants';
 
 interface ShowListProps {
@@ -25,6 +28,7 @@ export const ShowList = ({ shows, onStatsClick }: ShowListProps) => {
   const [selectedShow, setSelectedShow] = useState<Show | null>(null);
   const [playerTitle, setPlayerTitle] = useState(PLAYER_TITLE_LATEST);
   const [shouldSyncShow, setShouldSyncShow] = useState(false);
+  const markInitialShowLoadedRef = useRef<() => void>(() => { });
 
   const {
     search,
@@ -50,7 +54,7 @@ export const ShowList = ({ shows, onStatsClick }: ShowListProps) => {
   }, [debouncedSearch, setDebouncedSearch]);
 
   // Handle permalink initialization
-  const handlePermalinkInit = ({
+  const handlePermalinkInit = useCallback(({
     search: urlSearch,
     category,
     year,
@@ -86,8 +90,9 @@ export const ShowList = ({ shows, onStatsClick }: ShowListProps) => {
     );
     setSelectedShow(sortedShows[0]);
     setPlayerTitle(PLAYER_TITLE_LATEST);
-    markInitialShowLoaded();
-  };
+    setShouldSyncShow(false);
+    markInitialShowLoadedRef.current();
+  }, [shows]);
 
   const { markInitialShowLoaded } = usePermalink({
     debouncedSearch,
@@ -99,6 +104,28 @@ export const ShowList = ({ shows, onStatsClick }: ShowListProps) => {
     shows,
     onInitialLoad: handlePermalinkInit,
   });
+
+  // Keep markInitialShowLoaded ref updated
+  useEffect(() => {
+    markInitialShowLoadedRef.current = markInitialShowLoaded;
+  }, [markInitialShowLoaded]);
+
+  // Listen for navigation changes (like clicking the logo)
+  useEffect(() => {
+    const handlePopState = () => {
+      const params = new URLSearchParams(window.location.search);
+      handlePermalinkInit({
+        search: params.get('q') || '',
+        category: params.get('cat') || DEFAULT_CATEGORY,
+        year: params.get('year') || DEFAULT_YEAR,
+        sort: (params.get('sort') as any) || (DEFAULT_SORT_ORDER as any),
+        showKey: params.get('show') || null,
+      });
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, [handlePermalinkInit]);
 
   // Update meta tags when selected show changes
   useEffect(() => {
