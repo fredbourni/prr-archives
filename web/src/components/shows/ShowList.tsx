@@ -24,6 +24,7 @@ interface ShowListProps {
 export const ShowList = ({ shows, onStatsClick }: ShowListProps) => {
   const [selectedShow, setSelectedShow] = useState<Show | null>(null);
   const [playerTitle, setPlayerTitle] = useState(PLAYER_TITLE_LATEST);
+  const [shouldSyncShow, setShouldSyncShow] = useState(false);
 
   const {
     search,
@@ -73,6 +74,7 @@ export const ShowList = ({ shows, onStatsClick }: ShowListProps) => {
       if (showFromUrl) {
         setSelectedShow(showFromUrl);
         setPlayerTitle(PLAYER_TITLE_PERMALINK);
+        setShouldSyncShow(true);
         markInitialShowLoaded();
         return;
       }
@@ -93,6 +95,7 @@ export const ShowList = ({ shows, onStatsClick }: ShowListProps) => {
     yearFilter,
     sortOrder,
     selectedShow,
+    shouldIncludeShow: shouldSyncShow,
     shows,
     onInitialLoad: handlePermalinkInit,
   });
@@ -107,12 +110,14 @@ export const ShowList = ({ shows, onStatsClick }: ShowListProps) => {
       const random = filteredShows[Math.floor(Math.random() * filteredShows.length)];
       setSelectedShow(random);
       setPlayerTitle(PLAYER_TITLE_RANDOM);
+      setShouldSyncShow(true);
     }
   };
 
   const handleShowClick = (show: Show) => {
     setSelectedShow(show);
     setPlayerTitle(PLAYER_TITLE_SELECTED);
+    setShouldSyncShow(true);
   };
 
   return (

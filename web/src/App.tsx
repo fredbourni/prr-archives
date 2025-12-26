@@ -62,7 +62,8 @@ function App() {
   const handleBackFromStats = () => {
     const params = new URLSearchParams(window.location.search);
     params.delete('stats');
-    const newUrl = params.toString() ? `?${params.toString()}` : window.location.pathname;
+    const queryString = params.toString();
+    const newUrl = queryString ? `?${queryString}` : window.location.pathname;
     window.history.pushState({}, '', newUrl);
     setShowStats(false);
   };
@@ -84,7 +85,13 @@ function App() {
           <Container maxWidth="lg">
             <Toolbar disableGutters sx={{ justifyContent: 'flex-start' }}>
               <Link
-                href={window.location.origin + window.location.pathname}
+                href={window.location.pathname}
+                onClick={(e) => {
+                  e.preventDefault();
+                  window.history.pushState({}, '', window.location.pathname);
+                  window.dispatchEvent(new PopStateEvent('popstate'));
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
                 sx={{
                   display: 'flex',
                   alignItems: 'center',

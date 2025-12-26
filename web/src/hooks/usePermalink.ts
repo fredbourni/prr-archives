@@ -9,6 +9,7 @@ interface UsePermalinkOptions {
   yearFilter: string;
   sortOrder: SortOrder;
   selectedShow: Show | null;
+  shouldIncludeShow: boolean;
   shows: Show[];
   onInitialLoad: (params: {
     search: string;
@@ -28,6 +29,7 @@ export const usePermalink = ({
   yearFilter,
   sortOrder,
   selectedShow,
+  shouldIncludeShow,
   shows,
   onInitialLoad,
 }: UsePermalinkOptions) => {
@@ -67,11 +69,22 @@ export const usePermalink = ({
     if (categoryFilter !== DEFAULT_CATEGORY) params.set('cat', categoryFilter);
     if (yearFilter !== DEFAULT_YEAR) params.set('year', yearFilter);
     if (sortOrder !== DEFAULT_SORT_ORDER) params.set('sort', sortOrder);
-    if (selectedShow) params.set('show', selectedShow.slug);
 
-    const newUrl = `${window.location.pathname}?${params.toString()}`;
+    // Only include show in URL if it was explicitly selected or came from a permalink
+    if (selectedShow && shouldIncludeShow) {
+      params.set('show', selectedShow.slug);
+    }
+
+    // Preserve stats parameter if it exists in the current URL
+    const currentParams = new URLSearchParams(window.location.search);
+    if (currentParams.get('stats') === '1') {
+      params.set('stats', '1');
+    }
+
+    const queryString = params.toString();
+    const newUrl = queryString ? `${window.location.pathname}?${queryString}` : window.location.pathname;
     window.history.pushState({}, '', newUrl);
-  }, [debouncedSearch, categoryFilter, yearFilter, sortOrder, selectedShow, hasInitialized, hasLoadedInitialShow]);
+  }, [debouncedSearch, categoryFilter, yearFilter, sortOrder, selectedShow, shouldIncludeShow, hasInitialized, hasLoadedInitialShow]);
 
   const markInitialShowLoaded = () => {
     setHasLoadedInitialShow(true);
