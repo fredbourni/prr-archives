@@ -19,6 +19,16 @@ import AvTimerIcon from '@mui/icons-material/AvTimer';
 import LibraryMusicIcon from '@mui/icons-material/LibraryMusic';
 import type { Show } from '@types';
 import { getShowImage } from '@utils/image';
+import {
+    LineChart,
+    Line,
+    XAxis,
+    YAxis,
+    CartesianGrid,
+    Tooltip,
+    ResponsiveContainer,
+    Legend,
+} from 'recharts';
 
 interface StatsPageProps {
     shows: Show[];
@@ -68,6 +78,19 @@ export const StatsPage = ({ shows, onBack, onCategoryClick }: StatsPageProps) =>
             count: data.shows.length,
         }))
         .sort((a, b) => b.stats.seconds - a.stats.seconds);
+
+    // Stats per year
+    const yearlyStats = shows.reduce((acc, show) => {
+        const year = new Date(show.created_time).getFullYear().toString();
+        if (!acc[year]) {
+            acc[year] = { year, episodes: 0, minutes: 0 };
+        }
+        acc[year].episodes += 1;
+        acc[year].minutes += Math.floor(show.audio_length / 60);
+        return acc;
+    }, {} as Record<string, { year: string; episodes: number; minutes: number }>);
+
+    const chartData = Object.values(yearlyStats).sort((a, b) => a.year.localeCompare(b.year));
 
     return (
         <Container maxWidth="lg" sx={{ py: 4 }}>
@@ -125,6 +148,83 @@ export const StatsPage = ({ shows, onBack, onCategoryClick }: StatsPageProps) =>
                         </Grid>
                     )}
                 </Grid>
+            </Paper>
+
+            {/* Combined Chart */}
+            <Paper
+                elevation={0}
+                sx={{
+                    p: 3,
+                    mb: 6,
+                    borderRadius: 4,
+                    backgroundColor: 'rgba(255,255,255,0.03)',
+                    border: '1px solid rgba(255,255,255,0.05)',
+                }}
+            >
+                <Typography variant="h6" sx={{ mb: 3, fontWeight: 'bold' }}>
+                    Épisodes et Minutes par année
+                </Typography>
+                <Box sx={{ height: 400, width: '100%' }}>
+                    <ResponsiveContainer width="100%" height="100%">
+                        <LineChart data={chartData} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
+                            <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" vertical={false} />
+                            <XAxis
+                                dataKey="year"
+                                stroke="rgba(255,255,255,0.5)"
+                                fontSize={12}
+                                tickLine={false}
+                                axisLine={false}
+                            />
+                            <YAxis
+                                yAxisId="left"
+                                stroke="#1976d2"
+                                fontSize={12}
+                                tickLine={false}
+                                axisLine={false}
+                                label={{ value: 'Épisodes', angle: -90, position: 'insideLeft', offset: -10, fill: '#1976d2', fontSize: 12 }}
+                            />
+                            <YAxis
+                                yAxisId="right"
+                                orientation="right"
+                                stroke="#ed6c02"
+                                fontSize={12}
+                                tickLine={false}
+                                axisLine={false}
+                                label={{ value: 'Minutes', angle: 90, position: 'insideRight', offset: -10, fill: '#ed6c02', fontSize: 12 }}
+                            />
+                            <Tooltip
+                                contentStyle={{
+                                    backgroundColor: '#1e1e1e',
+                                    border: '1px solid rgba(255,255,255,0.1)',
+                                    borderRadius: '8px',
+                                }}
+                                itemStyle={{ color: '#fff' }}
+                                cursor={{ stroke: 'rgba(255,255,255,0.1)', strokeWidth: 2 }}
+                            />
+                            <Legend verticalAlign="top" height={36} />
+                            <Line
+                                yAxisId="left"
+                                type="monotone"
+                                dataKey="episodes"
+                                name="Épisodes"
+                                stroke="#1976d2"
+                                strokeWidth={3}
+                                dot={{ fill: '#1976d2', r: 4 }}
+                                activeDot={{ r: 6 }}
+                            />
+                            <Line
+                                yAxisId="right"
+                                type="monotone"
+                                dataKey="minutes"
+                                name="Minutes"
+                                stroke="#ed6c02"
+                                strokeWidth={3}
+                                dot={{ fill: '#ed6c02', r: 4 }}
+                                activeDot={{ r: 6 }}
+                            />
+                        </LineChart>
+                    </ResponsiveContainer>
+                </Box>
             </Paper>
 
             <Typography variant="h5" sx={{ mb: 3, fontWeight: 'bold' }}>Par Émission</Typography>
