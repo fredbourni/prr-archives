@@ -30,6 +30,11 @@ This project provides a comprehensive archive browser for PunkRockRadio.ca shows
   - Year-based filtering
   - Category filtering with icon indicators
   - Combined filter support
+- **Advanced Statistics**: 
+  - Comprehensive dashboard (accessible via `?stats=1`)
+  - Global archive totals (episodes, minutes, hours, days, weeks, months)
+  - Individual show-by-show statistics with visual indicators
+  - **Yearly Trends Chart**: Interactive dual-axis line chart plotting episodes and total minutes per year
 - **Multiple Sort Options**: Sort by newest, oldest, or random
 - **Infinite Scroll**: Smooth pagination loading 12 shows at a time
 - **Permalink Support**: Share specific searches and shows via URL with full state synchronization
@@ -212,7 +217,8 @@ Shows are categorized using regex patterns defined in `indexer/config.json`. The
 - **Language**: TypeScript 5.9.3
 - **Build Tool**: Vite 7.2.4
 - **UI Library**: Material-UI (MUI) 7.3.5
-- **Search**: Fuse.js 7.1.0 (fuzzy search)
+- **Search**: Fuse.js 7.1.0
+- **Charts**: Recharts 2.15.0
 - **Date Handling**: date-fns 4.1.0
 - **Styling**: Emotion (CSS-in-JS)
 - **Code Quality**: ESLint, Prettier, TypeScript strict mode
