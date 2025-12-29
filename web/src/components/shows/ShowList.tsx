@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Box } from '@mui/material';
 import type { Show } from '@types';
 import { useFilters } from '@hooks/useFilters';
@@ -28,7 +28,6 @@ export const ShowList = ({ shows, onStatsClick }: ShowListProps) => {
   const [selectedShow, setSelectedShow] = useState<Show | null>(null);
   const [playerTitle, setPlayerTitle] = useState(PLAYER_TITLE_LATEST);
   const [shouldSyncShow, setShouldSyncShow] = useState(false);
-  const markInitialShowLoadedRef = useRef<() => void>(() => { });
 
   const {
     search,
@@ -66,7 +65,7 @@ export const ShowList = ({ shows, onStatsClick }: ShowListProps) => {
     year: string;
     sort: 'newest' | 'oldest';
     showKey: string | null;
-  }) => {
+  }, markLoaded: () => void) => {
     setSearch(urlSearch);
     setDebouncedSearch(urlSearch);
     setCategoryFilter(category);
@@ -79,7 +78,7 @@ export const ShowList = ({ shows, onStatsClick }: ShowListProps) => {
         setSelectedShow(showFromUrl);
         setPlayerTitle(PLAYER_TITLE_PERMALINK);
         setShouldSyncShow(true);
-        markInitialShowLoaded();
+        markLoaded();
         return;
       }
     }
@@ -91,7 +90,7 @@ export const ShowList = ({ shows, onStatsClick }: ShowListProps) => {
     setSelectedShow(sortedShows[0]);
     setPlayerTitle(PLAYER_TITLE_LATEST);
     setShouldSyncShow(false);
-    markInitialShowLoadedRef.current();
+    markLoaded();
   }, [shows]);
 
   const { markInitialShowLoaded } = usePermalink({
@@ -105,11 +104,6 @@ export const ShowList = ({ shows, onStatsClick }: ShowListProps) => {
     onInitialLoad: handlePermalinkInit,
   });
 
-  // Keep markInitialShowLoaded ref updated
-  useEffect(() => {
-    markInitialShowLoadedRef.current = markInitialShowLoaded;
-  }, [markInitialShowLoaded]);
-
   // Listen for navigation changes (like clicking the logo)
   useEffect(() => {
     const handlePopState = () => {
@@ -120,7 +114,7 @@ export const ShowList = ({ shows, onStatsClick }: ShowListProps) => {
         year: params.get('year') || DEFAULT_YEAR,
         sort: (params.get('sort') as any) || (DEFAULT_SORT_ORDER as any),
         showKey: params.get('show') || null,
-      });
+      }, markInitialShowLoaded);
     };
 
     window.addEventListener('popstate', handlePopState);

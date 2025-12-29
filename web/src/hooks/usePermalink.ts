@@ -17,7 +17,7 @@ interface UsePermalinkOptions {
     year: string;
     sort: SortOrder;
     showKey: string | null;
-  }) => void;
+  }, markLoaded: () => void) => void;
 }
 
 /**
@@ -52,11 +52,10 @@ export const usePermalink = ({
         year: urlYear,
         sort: urlSort,
         showKey: urlShowKey,
-      });
+      }, markInitialShowLoaded);
 
       setHasInitialized(true);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [shows, onInitialLoad]);
 
   // Update URL when filters change
