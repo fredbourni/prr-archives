@@ -1,5 +1,31 @@
 [
   {
+    "name": "Syndrome Punk Rock Express - 20 janvier 2026",
+    "slug": "syndrome-punk-rock-express-20-janvier-2026",
+    "created_time": "2026-01-22T19:16:05Z",
+    "picture_key": "extaudio/c/f/0/b/7c29-2c94-4e4c-bb8a-dc496da5323f",
+    "tags": [
+      "Pop punk",
+      "Punk",
+      "Ska punk",
+      "Skate punk"
+    ],
+    "category": "Syndrome Punk Rock",
+    "audio_length": 2297
+  },
+  {
+    "name": "Babadok Főhkhöff Radio - 07 Janvier 2026",
+    "slug": "babadok-főhkhöff-radio-07-janvier-2026",
+    "created_time": "2026-01-22T19:09:31Z",
+    "picture_key": "extaudio/9/4/f/f/ac86-bb77-4a03-8329-627999da35af",
+    "tags": [
+      "Hardcore",
+      "Punk"
+    ],
+    "category": "Babadok Főhkhöff Radio",
+    "audio_length": 9410
+  },
+  {
     "name": "Wayback Punk Machine - 15 Décembre 2025 - Best of 2025 - Partie 2",
     "slug": "wayback-punk-machine-15-décembre-2025-best-of-2025-partie-2",
     "created_time": "2025-12-15T21:11:28Z",
