@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build && node scripts/minify-json.js",
+    "build": "vite build && node scripts/minify-json.js && node scripts/generate-sitemap.js",
     "type-check": "tsc -b",
     "lint": "eslint .",
     "format": "prettier --write \"src/**/*.{ts,tsx,js,jsx,json,css}\"",
