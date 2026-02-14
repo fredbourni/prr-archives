@@ -124,7 +124,7 @@ export const ShowList = ({ shows, onStatsClick }: ShowListProps) => {
   // Update meta tags when selected show changes
   useEffect(() => {
     updateMetaTags(selectedShow);
-  }, [selectedShow]);
+  }, [selectedShow, shouldSyncShow]);
 
   const handleRandomShow = () => {
     if (filteredShows.length > 0) {

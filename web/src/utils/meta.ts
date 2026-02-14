@@ -18,7 +18,10 @@ const updateMetaTag = (property: string, content: string): void => {
  * Updates Open Graph meta tags and document title for a show
  */
 export const updateMetaTags = (show: Show | null): void => {
-  if (show) {
+  const params = new URLSearchParams(window.location.search);
+  const showParam = params.get('show');
+
+  if (show && showParam) {
     document.title = `${show.name} - Archives PunkRockRadio.ca`;
     updateMetaTag('og:title', show.name);
     updateMetaTag('og:description', `Écoutez ${show.name} sur les archives de PunkRockRadio.ca`);
@@ -27,7 +30,7 @@ export const updateMetaTags = (show: Show | null): void => {
   } else {
     document.title = 'Archives PunkRockRadio.ca';
     updateMetaTag('og:title', 'Archives PunkRockRadio.ca');
-    updateMetaTag('og:description', 'Archives des shows de PunkRockRadio.ca');
+    updateMetaTag('og:description', 'Archives des émissions de PunkRockRadio.ca');
     updateMetaTag('og:image', '/vite.svg');
     updateMetaTag('og:url', window.location.origin);
   }
