@@ -1,5 +1,51 @@
 [
   {
+    "name": "Syndrome Punnk Rock - 27 Mars 2026",
+    "slug": "syndrome-punnk-rock-27-mars-2026",
+    "created_time": "2026-03-30T12:58:04Z",
+    "picture_key": "extaudio/6/0/d/9/ce77-1951-4bf9-a42c-0321b036bc7b",
+    "tags": [
+      "Hardcore",
+      "Pop punk",
+      "Punk",
+      "Ska punk",
+      "Skate punk"
+    ],
+    "category": "Sans catégorie",
+    "audio_length": 3094,
+    "description": "Syndrome Punk Rock\n27 Mars 2026"
+  },
+  {
+    "name": "Syndrome Punk Rock - 20 Mars 2026",
+    "slug": "syndrome-punk-rock-20-mars-2026",
+    "created_time": "2026-03-30T12:48:32Z",
+    "picture_key": "extaudio/3/8/6/c/699c-740b-46e1-a35e-f670c725aa56",
+    "tags": [
+      "Hardcore",
+      "Pop punk",
+      "Punk",
+      "Ska punk",
+      "Skate punk"
+    ],
+    "category": "Syndrome Punk Rock",
+    "audio_length": 3359
+  },
+  {
+    "name": "Syndrome Punk Rock - 13 Mars 2026",
+    "slug": "syndrome-punk-rock-13-mars-2026",
+    "created_time": "2026-03-30T12:31:15Z",
+    "picture_key": "extaudio/9/f/1/c/197e-0660-4bab-9103-22953483daaf",
+    "tags": [
+      "Hardcore",
+      "Pop punk",
+      "Punk",
+      "Ska punk",
+      "Skate punk"
+    ],
+    "category": "Syndrome Punk Rock",
+    "audio_length": 3562
+  },
+  {
     "name": "Babadok Főhkhöff Radio - 11 Mars 2026",
     "slug": "babadok-főhkhöff-radio-11-mars-2026",
     "created_time": "2026-03-12T22:07:47Z",
