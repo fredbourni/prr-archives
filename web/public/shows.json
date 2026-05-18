@@ -1,5 +1,62 @@
 [
   {
+    "name": "Syndrome Punk Rock - 08 Mai 2026",
+    "slug": "syndrome-punk-rock-08-mai-2026",
+    "created_time": "2026-05-18T14:30:29Z",
+    "picture_key": "extaudio/3/7/b/7/5b34-592f-4061-9702-563c5dbecae4",
+    "tags": [
+      "Hardcore",
+      "Pop punk",
+      "Punk",
+      "Ska punk",
+      "Skate punk"
+    ],
+    "category": "Syndrome Punk Rock",
+    "audio_length": 3955
+  },
+  {
+    "name": "Le Pink Punk Show - 24 Avril 2026 - S4 - Episode 05",
+    "slug": "le-pink-punk-show-24-avril-2026-s4-episode-05",
+    "created_time": "2026-05-18T14:22:55Z",
+    "picture_key": "extaudio/8/5/c/7/cd4f-006a-42eb-9bf3-20975fc8a5af",
+    "tags": [
+      "Hardcore",
+      "Punk"
+    ],
+    "category": "Le Pink Punk Show",
+    "audio_length": 2799
+  },
+  {
+    "name": "Syndrome Punk Rock - 24 Avril 2026",
+    "slug": "syndrome-punk-rock-24-avril-2026",
+    "created_time": "2026-05-18T14:14:15Z",
+    "picture_key": "extaudio/2/b/8/0/8adc-a171-4e10-b2a7-e6b58affc6e1",
+    "tags": [
+      "Hardcore",
+      "Pop punk",
+      "Punk",
+      "Ska punk",
+      "Skate punk"
+    ],
+    "category": "Syndrome Punk Rock",
+    "audio_length": 3088
+  },
+  {
+    "name": "Syndrome Punk Rock - 17 Avril 2026",
+    "slug": "syndrome-punnk-rocl-17-avril-2026",
+    "created_time": "2026-05-18T14:07:02Z",
+    "picture_key": "extaudio/0/2/f/f/ffcd-a0b6-450a-8c2a-20aa56b161b4",
+    "tags": [
+      "Hardcore",
+      "Pop punk",
+      "Punk",
+      "Ska punk",
+      "Skate punk"
+    ],
+    "category": "Syndrome Punk Rock",
+    "audio_length": 3370
+  },
+  {
     "name": "Wayback Punk Machine - 30 Mars 2026 - Entrevue avec Loic de Double Negative",
     "slug": "wayback-punk-machine-30-mars-2026-entrevue-avec-loic-de-double-negative",
     "created_time": "2026-04-13T17:59:19Z",
