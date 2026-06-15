@@ -1,5 +1,48 @@
 [
   {
+    "name": "Syndrome Punk Rock - 12 Juin 2026",
+    "slug": "syndrome-punk-rock-12-juin-2026",
+    "created_time": "2026-06-15T13:43:40Z",
+    "picture_key": "extaudio/b/2/e/0/f2e9-c496-4bbe-a610-ba0eadacbf7d",
+    "tags": [
+      "Hardcore",
+      "Pop punk",
+      "Punk",
+      "Ska punk",
+      "Skate punk"
+    ],
+    "category": "Syndrome Punk Rock",
+    "audio_length": 3413
+  },
+  {
+    "name": "Le Pink Punk Show - 17 Mai 2026 - Pouzza",
+    "slug": "le-pink-punk-show-17-mai-2026-pouzza",
+    "created_time": "2026-06-15T13:37:10Z",
+    "picture_key": "extaudio/4/6/2/6/73c9-9a53-4cab-8ede-4b5807c01021",
+    "tags": [
+      "Hardcore",
+      "Punk"
+    ],
+    "category": "Le Pink Punk Show",
+    "audio_length": 2336
+  },
+  {
+    "name": "Syndrome Punk Rock - 05 Juin 2026",
+    "slug": "syndrome-punk-rock-05-juin-2026",
+    "created_time": "2026-06-15T13:33:57Z",
+    "picture_key": "extaudio/7/b/9/b/bb35-7f28-48b9-b7d6-81cec1c1d94d",
+    "tags": [
+      "Hardcore",
+      "Pop punk",
+      "Punk",
+      "Ska punk",
+      "Skate punk"
+    ],
+    "category": "Syndrome Punk Rock",
+    "audio_length": 2717,
+    "description": "Syndrome Punk Rock Express\n05 Juin 2026"
+  },
+  {
     "name": "Wayback Punk Machine - 18 Mai 2026 - Entrevue avec Alex Bawlers",
     "slug": "wayback-punk-machine-18-mai-2026-entrevue-avec-alex-bawlers",
     "created_time": "2026-05-19T00:25:50Z",
