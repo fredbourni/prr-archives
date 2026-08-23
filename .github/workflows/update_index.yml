@@ -52,8 +52,24 @@ jobs:
             echo "changes=true" >> $GITHUB_OUTPUT
           fi
 
+      - name: Update Categories Locally
+        run: python indexer/main.py --output web/public/shows.json --local-update
+
+      - name: Commit Local Update Changes
+        id: commit-local
+        run: |
+          git add web/public/shows.json
+          if git diff --staged --quiet; then
+            echo "No local update changes to commit"
+            echo "changes=false" >> $GITHUB_OUTPUT
+          else
+            git commit -m "Update show categories and tags"
+            git push
+            echo "changes=true" >> $GITHUB_OUTPUT
+          fi
+
       - name: Trigger Deploy Workflow
-        if: steps.commit.outputs.changes == 'true'
+        if: steps.commit.outputs.changes == 'true' || steps.commit-local.outputs.changes == 'true'
         run: gh workflow run deploy.yml
         env:
           GH_TOKEN: ${{ github.token }}
