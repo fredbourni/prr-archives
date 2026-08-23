@@ -14,7 +14,7 @@
         },
         {
             "name": "Syndrome Punk Rock",
-            "regex": "S.ndrom.*Punk"
+            "regex": "S.ndrom.*Pun+k"
         },
         {
             "name": "Le Punk Rock Show du Matin",
