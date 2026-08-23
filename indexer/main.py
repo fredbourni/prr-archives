@@ -194,6 +194,7 @@ def perform_fetch_and_index(
     output_path: Path,
     config_path: Path,
     limit: int | None = None,
+    force_reindex: bool = False,
 ) -> int:
     """Fetch new shows from API and update the index.
     
@@ -201,14 +202,21 @@ def perform_fetch_and_index(
         output_path: Path to the shows index file.
         config_path: Path to the configuration file.
         limit: Maximum number of shows to fetch (for testing).
+        force_reindex: If True, fetch all shows and replace the existing index.
     
     Returns:
         Exit code (0 for success, non-zero for error).
     """
-    logger.info("Starting fetch and index mode")
+    if force_reindex:
+        logger.info("Starting forced full reindex mode")
+    else:
+        logger.info("Starting fetch and index mode")
     
-    # Load existing data
-    existing_data = load_existing_index(output_path)
+    # Load existing data unless forcing a full reindex
+    if force_reindex:
+        existing_data: List[ProcessedShow] = []
+    else:
+        existing_data = load_existing_index(output_path)
     existing_ids: Set[str] = {show["slug"] for show in existing_data}
     
     # Initialize components
@@ -269,6 +277,9 @@ Examples:
   # Fetch up to 10 shows (for testing)
   %(prog)s --limit 10
   
+  # Force a full reindex of all shows
+  %(prog)s --force-reindex
+  
   # Update categories locally without fetching
   %(prog)s --local-update
   
@@ -277,7 +288,7 @@ Examples:
   
   # Enable verbose logging
   %(prog)s --verbose
-        """,
+        """
     )
     
     parser.add_argument(
@@ -307,6 +318,12 @@ Examples:
         "--local-update",
         action="store_true",
         help="Update categories locally without fetching from API",
+    )
+    
+    parser.add_argument(
+        "--force-reindex",
+        action="store_true",
+        help="Fetch all shows and replace the existing index",
     )
     
     parser.add_argument(
@@ -347,7 +364,9 @@ def main() -> int:
             return perform_local_update(output_path, processor)
         else:
             # Fetch and index mode
-            return perform_fetch_and_index(output_path, config_path, args.limit)
+            return perform_fetch_and_index(
+                output_path, config_path, args.limit, args.force_reindex
+            )
             
     except IndexerError as e:
         logger.error(f"Indexer error: {e}")

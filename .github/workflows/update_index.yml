@@ -4,6 +4,12 @@ on:
   schedule:
     - cron: '0 11,23 * * 1-5'
   workflow_dispatch:
+    inputs:
+      force_reindex:
+        description: 'Force a full reindex of all shows'
+        required: false
+        default: false
+        type: boolean
 
 permissions:
   contents: write
@@ -26,7 +32,9 @@ jobs:
           pip install requests
 
       - name: Run Indexer
-        run: python indexer/main.py --output web/public/shows.json
+        env:
+          FORCE_REINDEX_FLAG: ${{ inputs.force_reindex && '--force-reindex' || '' }}
+        run: python indexer/main.py --output web/public/shows.json $FORCE_REINDEX_FLAG
 
       - name: Commit and Push changes
         id: commit
