@@ -1,5 +1,33 @@
 [
   {
+    "name": "Syndrome Punk Rock - 25 Septembre 2026",
+    "slug": "syndrome-punk-rock-25-septembre-2026",
+    "created_time": "2026-09-25T13:44:08Z",
+    "picture_key": "extaudio/4/1/1/5/9c96-f6f4-426e-90f4-27ee5a121847",
+    "tags": [
+      "Hardcore",
+      "Pop punk",
+      "Punk",
+      "Ska punk",
+      "Skate punk"
+    ],
+    "category": "Syndrome Punk Rock",
+    "audio_length": 3600
+  },
+  {
+    "name": "Skampi Valencia Show - 24 Septembre 2026 - Émission #01",
+    "slug": "skampi-valencia-show-24-septembre-2026-émission-01",
+    "created_time": "2026-09-25T11:33:04Z",
+    "picture_key": "extaudio/a/6/1/d/3673-4126-4ca2-93fa-93308fb1edbb",
+    "tags": [
+      "Punk",
+      "Ska punk",
+      "Skate punk"
+    ],
+    "category": "Sans catégorie",
+    "audio_length": 2914
+  },
+  {
     "name": "Le Punk Rock Show du Matin - 23 Septembre 2026 - #891",
     "slug": "le-punk-rock-show-du-matin-23-septembre-2026-891",
     "created_time": "2026-09-24T16:51:27Z",
