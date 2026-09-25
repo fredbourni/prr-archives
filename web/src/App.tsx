@@ -16,6 +16,7 @@ import IconButton from '@mui/material/IconButton';
 import { ShowList } from '@components/shows/ShowList';
 import { useShows } from '@hooks/useShows';
 import { StatsPage } from '@components/stats/StatsPage';
+import type { Period } from '@components/stats/StatsPage';
 import { useState, useEffect } from 'react';
 
 const darkTheme = createTheme({
@@ -37,16 +38,19 @@ const darkTheme = createTheme({
 function App() {
   const { shows } = useShows();
   const [showStats, setShowStats] = useState(false);
+  const [period, setPeriod] = useState<Period>('all');
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     setShowStats(params.get('stats') === '1');
+    setPeriod((params.get('period') as Period) || 'all');
   }, []);
 
   useEffect(() => {
     const handlePopState = () => {
       const params = new URLSearchParams(window.location.search);
       setShowStats(params.get('stats') === '1');
+      setPeriod((params.get('period') as Period) || 'all');
     };
     window.addEventListener('popstate', handlePopState);
     return () => window.removeEventListener('popstate', handlePopState);
@@ -62,10 +66,24 @@ function App() {
   const handleBackFromStats = () => {
     const params = new URLSearchParams(window.location.search);
     params.delete('stats');
+    params.delete('period');
     const queryString = params.toString();
     const newUrl = queryString ? `?${queryString}` : window.location.pathname;
     window.history.pushState({}, '', newUrl);
     setShowStats(false);
+  };
+
+  const handlePeriodChange = (newPeriod: Period) => {
+    setPeriod(newPeriod);
+    const params = new URLSearchParams(window.location.search);
+    if (newPeriod === 'all') {
+      params.delete('period');
+    } else {
+      params.set('period', newPeriod);
+    }
+    const queryString = params.toString();
+    const newUrl = queryString ? `?${queryString}` : window.location.pathname;
+    window.history.pushState({}, '', newUrl);
   };
 
   const handleCategoryClick = (category: string) => {
@@ -132,7 +150,13 @@ function App() {
             <ShowList shows={shows} onStatsClick={handleStatsClick} />
           </Box>
           {showStats && (
-            <StatsPage shows={shows} onBack={handleBackFromStats} onCategoryClick={handleCategoryClick} />
+            <StatsPage
+              shows={shows}
+              onBack={handleBackFromStats}
+              onCategoryClick={handleCategoryClick}
+              period={period}
+              onPeriodChange={handlePeriodChange}
+            />
           )}
         </Container>
       </Box>

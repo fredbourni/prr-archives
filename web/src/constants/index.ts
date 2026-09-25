@@ -9,7 +9,7 @@ export const PLAYER_HEIGHT = 120;
 
 // Default filter values
 export const DEFAULT_CATEGORY = 'Tous';
-export const DEFAULT_YEAR = 'Toutes';
+export const DEFAULT_YEAR = 'Éternité';
 export const DEFAULT_SORT_ORDER = 'newest';
 
 // Player titles
