@@ -126,10 +126,13 @@ function App() {
           </Container>
         </AppBar>
         <Container maxWidth="lg" sx={{ flexGrow: 1, py: 4, width: '100%' }}>
-          {showStats ? (
-            <StatsPage shows={shows} onBack={handleBackFromStats} onCategoryClick={handleCategoryClick} />
-          ) : (
+          {/* Keep ShowList mounted (but hidden) when stats is shown so the
+              Mixcloud player iframe stays in the DOM and keeps playing. */}
+          <Box sx={{ display: showStats ? 'none' : 'block' }}>
             <ShowList shows={shows} onStatsClick={handleStatsClick} />
+          </Box>
+          {showStats && (
+            <StatsPage shows={shows} onBack={handleBackFromStats} onCategoryClick={handleCategoryClick} />
           )}
         </Container>
       </Box>
