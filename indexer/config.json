@@ -157,6 +157,10 @@
             "regex": "Punkanormal"
         },
         {
+            "name": "Skampi Valencia Show",
+            "regex": "Skampi.*Valencia"
+        },
+        {
             "name": "Shows Spéciaux",
             "regex": "(sp.cial|entrevue|interview|jasette|impro|dimanche|parlons|news|listening|playlist|retrospective|mini show)"
         }
