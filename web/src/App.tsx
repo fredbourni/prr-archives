@@ -16,7 +16,7 @@ import IconButton from '@mui/material/IconButton';
 import { ShowList } from '@components/shows/ShowList';
 import { useShows } from '@hooks/useShows';
 import { StatsPage } from '@components/stats/StatsPage';
-import type { Period } from '@components/stats/StatsPage';
+import type { Period, GroupingOverride } from '@components/stats/StatsPage';
 import { useState, useEffect } from 'react';
 
 const darkTheme = createTheme({
@@ -39,11 +39,18 @@ function App() {
   const { shows } = useShows();
   const [showStats, setShowStats] = useState(false);
   const [period, setPeriod] = useState<Period>('all');
+  const [groupingOverride, setGroupingOverride] = useState<GroupingOverride>('auto');
+
+  const parseGrouping = (value: string | null): GroupingOverride => {
+    if (value === 'week' || value === 'month') return value;
+    return 'auto';
+  };
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     setShowStats(params.get('stats') === '1');
     setPeriod((params.get('period') as Period) || 'all');
+    setGroupingOverride(parseGrouping(params.get('grouping')));
   }, []);
 
   useEffect(() => {
@@ -51,6 +58,7 @@ function App() {
       const params = new URLSearchParams(window.location.search);
       setShowStats(params.get('stats') === '1');
       setPeriod((params.get('period') as Period) || 'all');
+      setGroupingOverride(parseGrouping(params.get('grouping')));
     };
     window.addEventListener('popstate', handlePopState);
     return () => window.removeEventListener('popstate', handlePopState);
@@ -67,6 +75,7 @@ function App() {
     const params = new URLSearchParams(window.location.search);
     params.delete('stats');
     params.delete('period');
+    params.delete('grouping');
     const queryString = params.toString();
     const newUrl = queryString ? `?${queryString}` : window.location.pathname;
     window.history.pushState({}, '', newUrl);
@@ -78,8 +87,25 @@ function App() {
     const params = new URLSearchParams(window.location.search);
     if (newPeriod === 'all') {
       params.delete('period');
+      // "Éternité" groups by year — the week/month override is disabled in that mode,
+      // so reset it to auto and drop the param from the URI.
+      params.delete('grouping');
+      setGroupingOverride('auto');
     } else {
       params.set('period', newPeriod);
+    }
+    const queryString = params.toString();
+    const newUrl = queryString ? `?${queryString}` : window.location.pathname;
+    window.history.pushState({}, '', newUrl);
+  };
+
+  const handleGroupingChange = (newGrouping: GroupingOverride) => {
+    setGroupingOverride(newGrouping);
+    const params = new URLSearchParams(window.location.search);
+    if (newGrouping === 'auto') {
+      params.delete('grouping');
+    } else {
+      params.set('grouping', newGrouping);
     }
     const queryString = params.toString();
     const newUrl = queryString ? `?${queryString}` : window.location.pathname;
@@ -156,6 +182,8 @@ function App() {
               onCategoryClick={handleCategoryClick}
               period={period}
               onPeriodChange={handlePeriodChange}
+              groupingOverride={groupingOverride}
+              onGroupingChange={handleGroupingChange}
             />
           )}
         </Container>

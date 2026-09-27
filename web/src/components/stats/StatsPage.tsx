@@ -19,6 +19,9 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import DateRangeIcon from '@mui/icons-material/DateRange';
 import AvTimerIcon from '@mui/icons-material/AvTimer';
 import LibraryMusicIcon from '@mui/icons-material/LibraryMusic';
+import ViewWeekIcon from '@mui/icons-material/ViewWeek';
+import AutoModeIcon from '@mui/icons-material/AutoMode';
+import { Tooltip as MuiTooltip } from '@mui/material';
 import type { Show } from '@types';
 import { getShowImage } from '@utils/image';
 import {
@@ -34,12 +37,25 @@ import {
 
 export type Period = '1m' | '3m' | '6m' | '1y' | 'all';
 
+/**
+ * X-axis grouping override for the chart.
+ * - `auto`: derive the grouping from the selected period (default behaviour)
+ * - `week` / `month`: force the chart to group by week or month
+ */
+export type GroupingOverride = 'auto' | 'week' | 'month';
+
 const PERIOD_OPTIONS: { value: Period; label: string }[] = [
     { value: '1m', label: '1M' },
     { value: '3m', label: '3M' },
     { value: '6m', label: '6M' },
     { value: '1y', label: '1A' },
     { value: 'all', label: 'Éternité' },
+];
+
+const GROUPING_OPTIONS: { value: GroupingOverride; label: string; icon: React.ReactNode }[] = [
+    { value: 'auto', label: 'Auto', icon: <AutoModeIcon fontSize="small" /> },
+    { value: 'week', label: 'Semaines', icon: <ViewWeekIcon fontSize="small" /> },
+    { value: 'month', label: 'Mois', icon: <CalendarMonthIcon fontSize="small" /> },
 ];
 
 const getPeriodCutoff = (period: Period): Date | null => {
@@ -115,6 +131,8 @@ interface StatsPageProps {
     onCategoryClick: (category: string) => void;
     period: Period;
     onPeriodChange: (period: Period) => void;
+    groupingOverride: GroupingOverride;
+    onGroupingChange: (grouping: GroupingOverride) => void;
 }
 
 interface ShowStats {
@@ -135,7 +153,7 @@ const calculateStats = (seconds: number): ShowStats => {
     return { seconds, minutes, hours, days, weeks, months };
 };
 
-export const StatsPage = ({ shows, onBack, onCategoryClick, period, onPeriodChange }: StatsPageProps) => {
+export const StatsPage = ({ shows, onBack, onCategoryClick, period, onPeriodChange, groupingOverride, onGroupingChange }: StatsPageProps) => {
     // Filter shows to the selected period
     const cutoff = getPeriodCutoff(period);
     const filteredShows = cutoff
@@ -166,8 +184,8 @@ export const StatsPage = ({ shows, onBack, onCategoryClick, period, onPeriodChan
         }))
         .sort((a, b) => b.stats.seconds - a.stats.seconds);
 
-    // Chart data, grouped according to the selected period
-    const grouping = getChartGrouping(period);
+    // Chart data, grouped according to the selected period (or the user override)
+    const grouping = groupingOverride === 'auto' ? getChartGrouping(period) : groupingOverride;
     const chartStats = filteredShows.reduce((acc, show) => {
         const { key, label } = getBucket(new Date(show.created_time), grouping);
         if (!acc[key]) {
@@ -297,9 +315,48 @@ export const StatsPage = ({ shows, onBack, onCategoryClick, period, onPeriodChan
                     border: '1px solid rgba(255,255,255,0.05)',
                 }}
             >
-                <Typography variant="h6" sx={{ mb: 3, fontWeight: 'bold' }}>
-                    {CHART_TITLE[grouping]}
-                </Typography>
+                <Box sx={{ mb: 3, display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 2, flexWrap: 'wrap' }}>
+                    <Typography variant="h6" sx={{ fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: 1 }}>
+                        {CHART_TITLE[grouping]}
+                    </Typography>
+                    <ToggleButtonGroup
+                        value={groupingOverride}
+                        exclusive
+                        size="small"
+                        onChange={(_, value: GroupingOverride | null) => {
+                            if (value) onGroupingChange(value);
+                        }}
+                        aria-label="Regroupement de l'axe X"
+                        sx={{
+                            display: period === 'all' ? 'none' : 'inline-flex',
+                            '& .MuiToggleButton-root': {
+                                px: 1.25,
+                                py: 0.5,
+                                fontSize: '0.75rem',
+                                fontWeight: 'bold',
+                                borderRadius: '999px !important',
+                                border: '1px solid rgba(255,255,255,0.12) !important',
+                                textTransform: 'none',
+                                display: 'flex',
+                                gap: 0.5,
+                                color: 'text.secondary',
+                                '&.Mui-selected': {
+                                    color: 'primary.main',
+                                    backgroundColor: 'rgba(144, 202, 249, 0.12)',
+                                },
+                            },
+                        }}
+                    >
+                        {GROUPING_OPTIONS.map((opt) => (
+                            <MuiTooltip key={opt.value} title={opt.value === 'auto' ? 'Regroupement automatique selon la période' : `Forcer le regroupement par ${opt.label.toLowerCase()}`} arrow>
+                                <ToggleButton value={opt.value}>
+                                    {opt.icon}
+                                    <Box component="span" sx={{ display: { xs: 'none', sm: 'inline' } }}>{opt.label}</Box>
+                                </ToggleButton>
+                            </MuiTooltip>
+                        ))}
+                    </ToggleButtonGroup>
+                </Box>
                 <Box sx={{ height: 400, width: '100%' }}>
                     <ResponsiveContainer width="100%" height="100%">
                         <LineChart data={chartData} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
