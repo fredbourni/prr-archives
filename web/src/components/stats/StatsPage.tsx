@@ -198,6 +198,18 @@ export const StatsPage = ({ shows, onBack, onCategoryClick, period, onPeriodChan
 
     // Fill in missing buckets with 0 so the chart shows continuous periods
     const chartValues = Object.values(chartStats).sort((a, b) => a.key.localeCompare(b.key));
+
+    // When the period cutoff lands mid-bucket (e.g. "1y" from mid-September groups by
+    // month), the first bucket only captures the tail-end of that period and shows
+    // misleading partial data. Drop it so the chart starts at the first complete bucket.
+    if (cutoff && chartValues.length > 0) {
+        const [y, m, d] = chartValues[0].key.split('-').map(Number);
+        const firstBucketStart = new Date(y, (m || 1) - 1, d || 1);
+        if (firstBucketStart < cutoff) {
+            chartValues.shift();
+        }
+    }
+
     const filledData: { key: string; label: string; episodes: number; minutes: number }[] = [];
     if (chartValues.length > 0) {
         const first = chartValues[0];
