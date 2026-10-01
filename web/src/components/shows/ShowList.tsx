@@ -162,7 +162,11 @@ export const ShowList = ({ shows, onStatsClick }: ShowListProps) => {
       <PlayerHeader title={playerTitle} show={selectedShow} />
 
       <Box sx={{ pb: 2 }}>
-        <ShowGrid shows={filteredShows} onShowClick={handleShowClick} />
+        <ShowGrid
+          shows={filteredShows}
+          onShowClick={handleShowClick}
+          selectedShowSlug={selectedShow?.slug ?? null}
+        />
       </Box>
     </Box>
   );

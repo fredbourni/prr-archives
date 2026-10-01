@@ -9,9 +9,10 @@ import { BATCH_SIZE } from '@constants';
 interface ShowGridProps {
     shows: Show[];
     onShowClick: (show: Show) => void;
+    selectedShowSlug: string | null;
 }
 
-export const ShowGrid = ({ shows, onShowClick }: ShowGridProps) => {
+export const ShowGrid = ({ shows, onShowClick, selectedShowSlug }: ShowGridProps) => {
     const [displayedCount, setDisplayedCount] = useState(BATCH_SIZE);
 
     // Reset displayed count when shows change
@@ -38,6 +39,7 @@ export const ShowGrid = ({ shows, onShowClick }: ShowGridProps) => {
                     <Grid size={{ xs: 12, sm: 6, md: 3, lg: 3 }} key={show.slug}>
                         <ShowCard
                             show={show}
+                            isSelected={show.slug === selectedShowSlug}
                             onClick={() => {
                                 onShowClick(show);
                                 window.scrollTo({ top: 0, behavior: 'smooth' });

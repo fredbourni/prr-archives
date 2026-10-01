@@ -6,10 +6,11 @@ import { getShowImage } from '@utils/image';
 
 interface ShowCardProps {
   show: Show;
+  isSelected?: boolean;
   onClick: () => void;
 }
 
-export const ShowCard = ({ show, onClick }: ShowCardProps) => {
+export const ShowCard = ({ show, isSelected = false, onClick }: ShowCardProps) => {
   return (
     <Card
       sx={{
@@ -18,8 +19,15 @@ export const ShowCard = ({ show, onClick }: ShowCardProps) => {
         display: 'flex',
         flexDirection: 'column',
         cursor: 'pointer',
-        transition: 'transform 0.2s',
+        transition: 'transform 0.2s, box-shadow 0.2s',
         '&:hover': { transform: 'scale(1.02)' },
+        ...(isSelected
+          ? {
+              border: 2,
+              borderColor: 'primary.main',
+              boxShadow: '0 0 12px 0 rgba(176, 190, 210, 0.4)',
+            }
+          : {}),
       }}
       onClick={onClick}
     >
