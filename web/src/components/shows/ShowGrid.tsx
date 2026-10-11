@@ -1,4 +1,5 @@
-import { Grid } from '@mui/material';
+import { Grid, Typography, Box } from '@mui/material';
+import SearchOffIcon from '@mui/icons-material/SearchOff';
 import type { Show } from '@types';
 import { ShowCard } from '../common/ShowCard';
 import { LoadingSpinner } from '../common/LoadingSpinner';
@@ -10,9 +11,57 @@ interface ShowGridProps {
     shows: Show[];
     onShowClick: (show: Show) => void;
     selectedShowSlug: string | null;
+    onTagClick?: (tag: string) => void;
+    onResetFilters?: () => void;
 }
 
-export const ShowGrid = ({ shows, onShowClick, selectedShowSlug }: ShowGridProps) => {
+const EmptyState = ({ onReset }: { onReset?: () => void }) => (
+    <Box
+        sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            py: 8,
+            gap: 2,
+            textAlign: 'center',
+        }}
+    >
+        <SearchOffIcon sx={{ fontSize: 64, color: 'text.secondary', opacity: 0.5 }} />
+        <Box>
+            <Typography variant="h6" color="text.secondary" sx={{ mb: 1 }}>
+                Aucun show ne correspond à vos filtres
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+                Essayez de modifier ou de réinitialiser les filtres.
+            </Typography>
+        </Box>
+        {onReset && (
+            <Box
+                component="button"
+                onClick={onReset}
+                sx={{
+                    bgcolor: 'background.paper',
+                    color: 'primary.main',
+                    border: 1,
+                    borderColor: 'primary.main',
+                    borderRadius: 2,
+                    px: 3,
+                    py: 1,
+                    cursor: 'pointer',
+                    fontFamily: 'inherit',
+                    fontSize: '0.9rem',
+                    fontWeight: 'bold',
+                    '&:hover': { bgcolor: 'rgba(176, 190, 210, 0.08)' },
+                }}
+            >
+                Réinitialiser les filtres
+            </Box>
+        )}
+    </Box>
+);
+
+export const ShowGrid = ({ shows, onShowClick, selectedShowSlug, onTagClick, onResetFilters }: ShowGridProps) => {
     const [displayedCount, setDisplayedCount] = useState(BATCH_SIZE);
 
     // Reset displayed count when shows change
@@ -30,6 +79,10 @@ export const ShowGrid = ({ shows, onShowClick, selectedShowSlug }: ShowGridProps
         hasMore: displayedCount < shows.length,
     });
 
+    if (shows.length === 0) {
+        return <EmptyState onReset={onResetFilters} />;
+    }
+
     const visibleShows = shows.slice(0, displayedCount);
 
     return (
@@ -40,6 +93,7 @@ export const ShowGrid = ({ shows, onShowClick, selectedShowSlug }: ShowGridProps
                         <ShowCard
                             show={show}
                             isSelected={show.slug === selectedShowSlug}
+                            onTagClick={onTagClick}
                             onClick={() => {
                                 onShowClick(show);
                                 window.scrollTo({ top: 0, behavior: 'smooth' });

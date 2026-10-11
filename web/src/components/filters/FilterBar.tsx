@@ -3,11 +3,13 @@ import { useState } from 'react';
 import ShuffleIcon from '@mui/icons-material/Shuffle';
 import ShareIcon from '@mui/icons-material/Share';
 import AssessmentIcon from '@mui/icons-material/Assessment';
+import HistoryIcon from '@mui/icons-material/History';
 import type { SortOrder } from '@hooks/useFilters';
 import { TextFilter } from './TextFilter';
 import { CategoryFilter } from './CategoryFilter';
 import { YearFilter } from './YearFilter';
 import { SortFilter } from './SortFilter';
+import { TagFilter } from './TagFilter';
 import { SNACKBAR_AUTO_HIDE_DURATION } from '@constants';
 
 interface FilterBarProps {
@@ -17,11 +19,16 @@ interface FilterBarProps {
   sortOrder: SortOrder;
   categories: string[];
   years: (string | number)[];
+  tags: string[];
+  tagFilter: string[];
   categoryImages: Map<string, string>;
+  recentlyPlayedOnly: boolean;
   onSearchChange: (value: string) => void;
   onCategoryChange: (value: string) => void;
   onYearChange: (value: string) => void;
   onSortChange: (value: SortOrder) => void;
+  onTagChange: (value: string[]) => void;
+  onRecentlyPlayedToggle: () => void;
   onRandomClick: () => void;
   onStatsClick: () => void;
 }
@@ -33,11 +40,16 @@ export const FilterBar = ({
   sortOrder,
   categories,
   years,
+  tags,
+  tagFilter,
   categoryImages,
+  recentlyPlayedOnly,
   onSearchChange,
   onCategoryChange,
   onYearChange,
   onSortChange,
+  onTagChange,
+  onRecentlyPlayedToggle,
   onRandomClick,
   onStatsClick,
 }: FilterBarProps) => {
@@ -64,6 +76,18 @@ export const FilterBar = ({
         <TextFilter value={search} onChange={onSearchChange} />
         <YearFilter value={yearFilter} years={years} onChange={onYearChange} />
         <SortFilter value={sortOrder} onChange={onSortChange} />
+        <TagFilter value={tagFilter} tags={tags} onChange={onTagChange} />
+        <Tooltip title="Sélection récentes">
+          <Button
+            variant="contained"
+            onClick={onRecentlyPlayedToggle}
+            color={recentlyPlayedOnly ? 'primary' : 'secondary'}
+            size="small"
+            sx={{ minWidth: 'auto', px: 2, height: { xs: '32px', sm: '40px' } }}
+          >
+            <HistoryIcon fontSize="small" />
+          </Button>
+        </Tooltip>
         <Tooltip title="Voir les statistiques">
           <Button
             variant="contained"

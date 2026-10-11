@@ -1,13 +1,15 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import type { Show } from '@types';
 import type { SortOrder } from './useFilters';
-import { DEFAULT_CATEGORY, DEFAULT_YEAR, DEFAULT_SORT_ORDER } from '@constants';
+import { DEFAULT_CATEGORY, DEFAULT_YEAR, DEFAULT_SORT_ORDER, DEFAULT_TAGS } from '@constants';
 
 interface UsePermalinkOptions {
   debouncedSearch: string;
   categoryFilter: string;
   yearFilter: string;
   sortOrder: SortOrder;
+  tagFilter: string[];
+  recentlyPlayedOnly: boolean;
   selectedShow: Show | null;
   shouldIncludeShow: boolean;
   shows: Show[];
@@ -17,6 +19,8 @@ interface UsePermalinkOptions {
     year: string;
     sort: SortOrder;
     showKey: string | null;
+    tags: string[];
+    recentlyPlayedOnly: boolean;
   }, markLoaded: () => void) => void;
 }
 
@@ -28,6 +32,8 @@ export const usePermalink = ({
   categoryFilter,
   yearFilter,
   sortOrder,
+  tagFilter,
+  recentlyPlayedOnly,
   selectedShow,
   shouldIncludeShow,
   shows,
@@ -35,6 +41,10 @@ export const usePermalink = ({
 }: UsePermalinkOptions) => {
   const [hasInitialized, setHasInitialized] = useState(false);
   const [hasLoadedInitialShow, setHasLoadedInitialShow] = useState(false);
+
+  const markInitialShowLoaded = useCallback(() => {
+    setHasLoadedInitialShow(true);
+  }, []);
 
   // Initialize state from URL params on mount
   useEffect(() => {
@@ -45,6 +55,8 @@ export const usePermalink = ({
       const urlYear = params.get('year') || DEFAULT_YEAR;
       const urlSort = (params.get('sort') as SortOrder) || (DEFAULT_SORT_ORDER as SortOrder);
       const urlShowKey = params.get('show') || null;
+      const urlTags = params.get('tag') ? params.get('tag')!.split(',').filter(Boolean) : DEFAULT_TAGS;
+      const urlRecentlyPlayed = params.get('recent') === '1';
 
       onInitialLoad({
         search: urlSearch,
@@ -52,11 +64,13 @@ export const usePermalink = ({
         year: urlYear,
         sort: urlSort,
         showKey: urlShowKey,
+        tags: urlTags,
+        recentlyPlayedOnly: urlRecentlyPlayed,
       }, markInitialShowLoaded);
 
       setHasInitialized(true);
     }
-  }, [shows, onInitialLoad]);
+  }, [shows, onInitialLoad, hasInitialized, markInitialShowLoaded]);
 
   // Update URL when filters change
   useEffect(() => {
@@ -68,6 +82,8 @@ export const usePermalink = ({
     if (categoryFilter !== DEFAULT_CATEGORY) params.set('cat', categoryFilter);
     if (yearFilter !== DEFAULT_YEAR) params.set('year', yearFilter);
     if (sortOrder !== DEFAULT_SORT_ORDER) params.set('sort', sortOrder);
+    if (tagFilter.length > 0) params.set('tag', tagFilter.join(','));
+    if (recentlyPlayedOnly) params.set('recent', '1');
 
     // Only include show in URL if it was explicitly selected or came from a permalink
     if (selectedShow && shouldIncludeShow) {
@@ -83,11 +99,7 @@ export const usePermalink = ({
     const queryString = params.toString();
     const newUrl = queryString ? `${window.location.pathname}?${queryString}` : window.location.pathname;
     window.history.pushState({}, '', newUrl);
-  }, [debouncedSearch, categoryFilter, yearFilter, sortOrder, selectedShow, shouldIncludeShow, hasInitialized, hasLoadedInitialShow]);
-
-  const markInitialShowLoaded = () => {
-    setHasLoadedInitialShow(true);
-  };
+  }, [debouncedSearch, categoryFilter, yearFilter, sortOrder, tagFilter, recentlyPlayedOnly, selectedShow, shouldIncludeShow, hasInitialized, hasLoadedInitialShow]);
 
   return {
     hasInitialized,

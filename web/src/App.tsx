@@ -16,6 +16,7 @@ import IconButton from '@mui/material/IconButton';
 import { ShowList } from '@components/shows/ShowList';
 import { useShows } from '@hooks/useShows';
 import { StatsPage } from '@components/stats/StatsPage';
+import { BackToTop } from '@components/common/BackToTop';
 import type { Period, GroupingOverride } from '@components/stats/StatsPage';
 import { useState, useEffect } from 'react';
 
@@ -187,6 +188,7 @@ function App() {
             />
           )}
         </Container>
+        <BackToTop />
       </Box>
     </ThemeProvider>
   );

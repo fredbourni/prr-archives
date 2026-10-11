@@ -11,6 +11,7 @@ export const PLAYER_HEIGHT = 120;
 export const DEFAULT_CATEGORY = 'Tous';
 export const DEFAULT_YEAR = 'Éternité';
 export const DEFAULT_SORT_ORDER = 'newest';
+export const DEFAULT_TAGS: string[] = [];
 
 // Player titles
 export const PLAYER_TITLE_LATEST = 'Dernier show';

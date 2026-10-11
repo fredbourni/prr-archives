@@ -261,7 +261,9 @@ class DataProcessor:
         """
         normalized_set = set()
         for tag in tags:
-            normalized_set.add(self.normalize_tag(tag))
+            normalized = self.normalize_tag(tag)
+            if normalized:
+                normalized_set.add(normalized)
         return sorted(list(normalized_set))
 
     def _extract_picture_key(self, pictures: Dict[str, str]) -> str:

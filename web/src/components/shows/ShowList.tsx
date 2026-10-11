@@ -1,9 +1,11 @@
 import { useState, useEffect, useCallback } from 'react';
-import { Box } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import type { Show } from '@types';
 import { useFilters } from '@hooks/useFilters';
+import type { SortOrder } from '@hooks/useFilters';
 import { useDebounce } from '@hooks/useDebounce';
 import { usePermalink } from '@hooks/usePermalink';
+import { useRecentlyPlayed } from '@hooks/useRecentlyPlayed';
 import { FilterBar } from '../filters/FilterBar';
 import { PlayerHeader } from '../player/PlayerHeader';
 import { ShowGrid } from './ShowGrid';
@@ -17,6 +19,7 @@ import {
   DEFAULT_CATEGORY,
   DEFAULT_YEAR,
   DEFAULT_SORT_ORDER,
+  DEFAULT_TAGS,
 } from '@constants';
 
 interface ShowListProps {
@@ -28,19 +31,24 @@ export const ShowList = ({ shows, onStatsClick }: ShowListProps) => {
   const [selectedShow, setSelectedShow] = useState<Show | null>(null);
   const [playerTitle, setPlayerTitle] = useState(PLAYER_TITLE_LATEST);
   const [shouldSyncShow, setShouldSyncShow] = useState(false);
+  const [recentlyPlayedOnly, setRecentlyPlayedOnly] = useState(false);
+  const { recentlyPlayed, addToRecentlyPlayed } = useRecentlyPlayed();
 
   const {
     search,
     categoryFilter,
     yearFilter,
     sortOrder,
+    tagFilter,
     setSearch,
     setDebouncedSearch,
     setCategoryFilter,
     setYearFilter,
     setSortOrder,
+    setTagFilter,
     categories,
     years,
+    tags,
     filteredShows,
     categoryImages,
   } = useFilters({ shows });
@@ -59,18 +67,24 @@ export const ShowList = ({ shows, onStatsClick }: ShowListProps) => {
     year,
     sort,
     showKey,
+    tags: urlTags,
+    recentlyPlayedOnly: urlRecentlyPlayed,
   }: {
     search: string;
     category: string;
     year: string;
     sort: 'newest' | 'oldest';
     showKey: string | null;
+    tags: string[];
+    recentlyPlayedOnly: boolean;
   }, markLoaded: () => void) => {
     setSearch(urlSearch);
     setDebouncedSearch(urlSearch);
     setCategoryFilter(category);
     setYearFilter(year);
     setSortOrder(sort);
+    setTagFilter(urlTags);
+    setRecentlyPlayedOnly(urlRecentlyPlayed);
 
     if (showKey) {
       const showFromUrl = shows.find((s) => s.slug === showKey);
@@ -78,6 +92,7 @@ export const ShowList = ({ shows, onStatsClick }: ShowListProps) => {
         setSelectedShow(showFromUrl);
         setPlayerTitle(PLAYER_TITLE_PERMALINK);
         setShouldSyncShow(true);
+        addToRecentlyPlayed(showFromUrl.slug);
         markLoaded();
         return;
       }
@@ -91,13 +106,15 @@ export const ShowList = ({ shows, onStatsClick }: ShowListProps) => {
     setPlayerTitle(PLAYER_TITLE_LATEST);
     setShouldSyncShow(false);
     markLoaded();
-  }, [shows]);
+  }, [shows, addToRecentlyPlayed, setSearch, setDebouncedSearch, setCategoryFilter, setYearFilter, setSortOrder, setTagFilter, setRecentlyPlayedOnly]);
 
   const { markInitialShowLoaded } = usePermalink({
     debouncedSearch,
     categoryFilter,
     yearFilter,
     sortOrder,
+    tagFilter,
+    recentlyPlayedOnly,
     selectedShow,
     shouldIncludeShow: shouldSyncShow,
     shows,
@@ -108,18 +125,22 @@ export const ShowList = ({ shows, onStatsClick }: ShowListProps) => {
   useEffect(() => {
     const handlePopState = () => {
       const params = new URLSearchParams(window.location.search);
+      const urlTags = params.get('tag') ? params.get('tag')!.split(',').filter(Boolean) : DEFAULT_TAGS;
+      const urlRecentlyPlayed = params.get('recent') === '1';
       handlePermalinkInit({
         search: params.get('q') || '',
         category: params.get('cat') || DEFAULT_CATEGORY,
         year: params.get('year') || DEFAULT_YEAR,
-        sort: (params.get('sort') as any) || (DEFAULT_SORT_ORDER as any),
+        sort: (params.get('sort') as SortOrder) || DEFAULT_SORT_ORDER,
         showKey: params.get('show') || null,
+        tags: urlTags,
+        recentlyPlayedOnly: urlRecentlyPlayed,
       }, markInitialShowLoaded);
     };
 
     window.addEventListener('popstate', handlePopState);
     return () => window.removeEventListener('popstate', handlePopState);
-  }, [handlePermalinkInit]);
+  }, [handlePermalinkInit, markInitialShowLoaded]);
 
   // Update meta tags when selected show changes
   useEffect(() => {
@@ -132,6 +153,7 @@ export const ShowList = ({ shows, onStatsClick }: ShowListProps) => {
       setSelectedShow(random);
       setPlayerTitle(PLAYER_TITLE_RANDOM);
       setShouldSyncShow(true);
+      addToRecentlyPlayed(random.slug);
     }
   };
 
@@ -139,7 +161,39 @@ export const ShowList = ({ shows, onStatsClick }: ShowListProps) => {
     setSelectedShow(show);
     setPlayerTitle(PLAYER_TITLE_SELECTED);
     setShouldSyncShow(true);
+    addToRecentlyPlayed(show.slug);
   };
+
+  const handleTagClick = (tag: string) => {
+    setTagFilter([tag]);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleResetFilters = () => {
+    setSearch('');
+    setDebouncedSearch('');
+    setCategoryFilter(DEFAULT_CATEGORY);
+    setYearFilter(DEFAULT_YEAR);
+    setSortOrder(DEFAULT_SORT_ORDER);
+    setTagFilter(DEFAULT_TAGS);
+    setRecentlyPlayedOnly(false);
+  };
+
+  const handleRecentlyPlayedToggle = () => {
+    setRecentlyPlayedOnly((prev) => !prev);
+  };
+
+  // Apply recently-played filter on top of the filtered shows
+  const visibleShows = recentlyPlayedOnly
+    ? filteredShows.filter((s) => recentlyPlayed.includes(s.slug))
+    : filteredShows;
+
+  const isFiltering =
+    search !== '' ||
+    categoryFilter !== DEFAULT_CATEGORY ||
+    yearFilter !== DEFAULT_YEAR ||
+    tagFilter.length > 0 ||
+    recentlyPlayedOnly;
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
@@ -150,22 +204,35 @@ export const ShowList = ({ shows, onStatsClick }: ShowListProps) => {
         sortOrder={sortOrder}
         categories={categories}
         years={years}
+        tags={tags}
+        tagFilter={tagFilter}
         categoryImages={categoryImages}
+        recentlyPlayedOnly={recentlyPlayedOnly}
         onSearchChange={setSearch}
         onCategoryChange={setCategoryFilter}
         onYearChange={setYearFilter}
         onSortChange={setSortOrder}
+        onTagChange={setTagFilter}
+        onRecentlyPlayedToggle={handleRecentlyPlayedToggle}
         onRandomClick={handleRandomShow}
         onStatsClick={onStatsClick}
       />
 
       <PlayerHeader title={playerTitle} show={selectedShow} />
 
+      {isFiltering && (
+        <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
+          {visibleShows.length} show{visibleShows.length !== 1 ? 's' : ''}
+        </Typography>
+      )}
+
       <Box sx={{ pb: 2 }}>
         <ShowGrid
-          shows={filteredShows}
+          shows={visibleShows}
           onShowClick={handleShowClick}
           selectedShowSlug={selectedShow?.slug ?? null}
+          onTagClick={handleTagClick}
+          onResetFilters={handleResetFilters}
         />
       </Box>
     </Box>

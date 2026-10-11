@@ -8,9 +8,10 @@ interface ShowCardProps {
   show: Show;
   isSelected?: boolean;
   onClick: () => void;
+  onTagClick?: (tag: string) => void;
 }
 
-export const ShowCard = ({ show, isSelected = false, onClick }: ShowCardProps) => {
+export const ShowCard = ({ show, isSelected = false, onClick, onTagClick }: ShowCardProps) => {
   return (
     <Card
       sx={{
@@ -32,7 +33,15 @@ export const ShowCard = ({ show, isSelected = false, onClick }: ShowCardProps) =
       onClick={onClick}
     >
       <Box sx={{ position: 'relative' }}>
-        <CardMedia component="img" height="260" image={getShowImage(show.picture_key)} alt={show.name} />
+        <CardMedia
+          component="img"
+          height="260"
+          image={getShowImage(show.picture_key)}
+          alt={show.name}
+          loading="lazy"
+          decoding="async"
+          sx={{ aspectRatio: '16 / 9', objectFit: 'cover' }}
+        />
         <Box
           sx={{
             position: 'absolute',
@@ -69,6 +78,12 @@ export const ShowCard = ({ show, isSelected = false, onClick }: ShowCardProps) =
               label={tag}
               size="small"
               variant="outlined"
+              clickable={!!onTagClick}
+              onClick={(e) => {
+                if (!onTagClick) return;
+                e.stopPropagation();
+                onTagClick(tag);
+              }}
               sx={{ fontSize: '0.5rem' }}
             />
           ))}

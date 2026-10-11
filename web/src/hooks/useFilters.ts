@@ -1,7 +1,7 @@
 import { useState, useMemo } from 'react';
 import Fuse from 'fuse.js';
 import type { Show } from '@types';
-import { DEFAULT_CATEGORY, DEFAULT_YEAR, DEFAULT_SORT_ORDER, FUSE_THRESHOLD } from '@constants';
+import { DEFAULT_CATEGORY, DEFAULT_YEAR, DEFAULT_SORT_ORDER, DEFAULT_TAGS, FUSE_THRESHOLD } from '@constants';
 import { stripArticles } from '@utils/format';
 import { getShowImage, ImageSize } from '@utils/image';
 
@@ -18,6 +18,7 @@ interface UseFiltersResult {
   categoryFilter: string;
   yearFilter: string;
   sortOrder: SortOrder;
+  tagFilter: string[];
 
   // Setters
   setSearch: (value: string) => void;
@@ -25,10 +26,12 @@ interface UseFiltersResult {
   setCategoryFilter: (value: string) => void;
   setYearFilter: (value: string) => void;
   setSortOrder: (value: SortOrder) => void;
+  setTagFilter: (value: string[]) => void;
 
   // Computed values
   categories: string[];
   years: (string | number)[];
+  tags: string[];
   filteredShows: Show[];
   categoryImages: Map<string, string>;
 }
@@ -42,6 +45,7 @@ export const useFilters = ({ shows }: UseFiltersOptions): UseFiltersResult => {
   const [categoryFilter, setCategoryFilter] = useState(DEFAULT_CATEGORY);
   const [yearFilter, setYearFilter] = useState(DEFAULT_YEAR);
   const [sortOrder, setSortOrder] = useState<SortOrder>(DEFAULT_SORT_ORDER as SortOrder);
+  const [tagFilter, setTagFilter] = useState<string[]>(DEFAULT_TAGS);
 
   // Compute categories with sorting
   const categories = useMemo(() => {
@@ -67,6 +71,13 @@ export const useFilters = ({ shows }: UseFiltersOptions): UseFiltersResult => {
   const years = useMemo(() => {
     const yearSet = new Set(shows.map((s) => new Date(s.created_time).getFullYear()));
     return [DEFAULT_YEAR, ...Array.from(yearSet).sort((a, b) => b - a)];
+  }, [shows]);
+
+  // Compute available tags (unique, sorted)
+  const tags = useMemo(() => {
+    const tagSet = new Set<string>();
+    shows.forEach((s) => s.tags.forEach((t) => tagSet.add(t)));
+    return Array.from(tagSet).sort((a, b) => a.localeCompare(b));
   }, [shows]);
 
   // Create Fuse instance for fuzzy search
@@ -127,6 +138,11 @@ export const useFilters = ({ shows }: UseFiltersOptions): UseFiltersResult => {
       result = result.filter((s) => new Date(s.created_time).getFullYear() === Number(yearFilter));
     }
 
+    // Apply tag filter (intersection: show must include all selected tags)
+    if (tagFilter.length > 0) {
+      result = result.filter((s) => tagFilter.every((t) => s.tags.includes(t)));
+    }
+
     // Apply sorting
     result = [...result].sort((a, b) => {
       const dateA = new Date(a.created_time).getTime();
@@ -135,7 +151,7 @@ export const useFilters = ({ shows }: UseFiltersOptions): UseFiltersResult => {
     });
 
     return result;
-  }, [shows, debouncedSearch, categoryFilter, yearFilter, sortOrder, fuse]);
+  }, [shows, debouncedSearch, categoryFilter, yearFilter, sortOrder, tagFilter, fuse]);
 
   return {
     search,
@@ -143,13 +159,16 @@ export const useFilters = ({ shows }: UseFiltersOptions): UseFiltersResult => {
     categoryFilter,
     yearFilter,
     sortOrder,
+    tagFilter,
     setSearch,
     setDebouncedSearch,
     setCategoryFilter,
     setYearFilter,
     setSortOrder,
+    setTagFilter,
     categories,
     years,
+    tags,
     filteredShows,
     categoryImages,
   };
