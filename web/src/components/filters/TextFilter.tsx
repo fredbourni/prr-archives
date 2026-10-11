@@ -8,16 +8,14 @@ interface TextFilterProps {
 export const TextFilter = ({ value, onChange }: TextFilterProps) => {
   return (
     <TextField
-      label="Filtrer par texte..."
+      placeholder="Recherche..."
       variant="outlined"
       value={value}
       onChange={(e) => onChange(e.target.value)}
       size="small"
       sx={{
-        flexGrow: 1,
-        minWidth: { xs: '100%', sm: '200px' },
+        minWidth: { xs: '100%', sm: '150px' },
         '& .MuiInputBase-root': { height: { xs: '32px', sm: '40px' } },
-        '& .MuiInputLabel-root': { top: { xs: '-5px', sm: '0px' } },
       }}
     />
   );
