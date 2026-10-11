@@ -77,7 +77,7 @@ export const FilterBar = ({
         <YearFilter value={yearFilter} years={years} onChange={onYearChange} />
         <SortFilter value={sortOrder} onChange={onSortChange} />
         <TagFilter value={tagFilter} tags={tags} onChange={onTagChange} />
-        <Tooltip title="Sélection récentes">
+        <Tooltip title="Sélections récentes">
           <Button
             variant="contained"
             onClick={onRecentlyPlayedToggle}
