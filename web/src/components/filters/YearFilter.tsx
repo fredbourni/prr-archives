@@ -11,7 +11,7 @@ export const YearFilter = ({ value, years, onChange }: YearFilterProps) => {
     <FormControl
       size="small"
       sx={{
-        minWidth: { xs: '100px', sm: '120px' },
+        minWidth: { xs: '100px', sm: '100px' },
         flexGrow: { xs: 1, sm: 0 },
         '& .MuiInputBase-root': { height: { xs: '32px', sm: '40px' } },
       }}

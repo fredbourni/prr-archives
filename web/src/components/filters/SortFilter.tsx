@@ -11,7 +11,7 @@ export const SortFilter = ({ value, onChange }: SortFilterProps) => {
     <FormControl
       size="small"
       sx={{
-        minWidth: { xs: '130px', sm: '150px' },
+        minWidth: { xs: '130px', sm: '130px' },
         flexGrow: { xs: 1, sm: 0 },
         '& .MuiInputBase-root': { height: { xs: '32px', sm: '40px' } },
       }}

@@ -14,7 +14,8 @@ export const TextFilter = ({ value, onChange }: TextFilterProps) => {
       onChange={(e) => onChange(e.target.value)}
       size="small"
       sx={{
-        minWidth: { xs: '100%', sm: '150px' },
+        minWidth: { xs: '100%', sm: '120px' },
+        flexGrow: { xs: 0, sm: 1 },
         '& .MuiInputBase-root': { height: { xs: '32px', sm: '40px' } },
       }}
     />

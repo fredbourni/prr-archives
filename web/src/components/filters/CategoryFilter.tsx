@@ -28,7 +28,7 @@ export const CategoryFilter = ({
     <FormControl
       size="small"
       sx={{
-        minWidth: { xs: '120px', sm: '200px' },
+        minWidth: { xs: '120px', sm: '170px' },
         flexGrow: { xs: 1, sm: 0 },
         '& .MuiInputBase-root': { height: { xs: '32px', sm: '40px' } },
       }}

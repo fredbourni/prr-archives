@@ -17,7 +17,7 @@ export const TagFilter = ({ value, tags, onChange }: TagFilterProps) => {
       options={tags}
       limitTags={2}
       sx={{
-        minWidth: { xs: '100%', sm: '180px' },
+        minWidth: { xs: '100%', sm: '150px' },
         flexGrow: { xs: 1, sm: 0 },
         '& .MuiInputBase-root': {
           height: { xs: '32px', sm: '40px' },

@@ -77,50 +77,52 @@ export const FilterBar = ({
         <YearFilter value={yearFilter} years={years} onChange={onYearChange} />
         <SortFilter value={sortOrder} onChange={onSortChange} />
         <TagFilter value={tagFilter} tags={tags} onChange={onTagChange} />
-        <Tooltip title="Sélections récentes">
-          <Button
-            variant="contained"
-            onClick={onRecentlyPlayedToggle}
-            color={recentlyPlayedOnly ? 'primary' : 'secondary'}
-            size="small"
-            sx={{ minWidth: 'auto', px: 2, height: { xs: '32px', sm: '40px' } }}
-          >
-            <HistoryIcon fontSize="small" />
-          </Button>
-        </Tooltip>
-        <Tooltip title="Voir les statistiques">
-          <Button
-            variant="contained"
-            onClick={onStatsClick}
-            color="secondary"
-            size="small"
-            sx={{ minWidth: 'auto', px: 2, height: { xs: '32px', sm: '40px' } }}
-          >
-            <AssessmentIcon fontSize="small" />
-          </Button>
-        </Tooltip>
-        <Tooltip title="Jouer un épisode aléatoire basé sur les filtres">
-          <Button
-            variant="contained"
-            onClick={onRandomClick}
-            color="secondary"
-            size="small"
-            sx={{ minWidth: 'auto', px: 2, height: { xs: '32px', sm: '40px' } }}
-          >
-            <ShuffleIcon fontSize="small" />
-          </Button>
-        </Tooltip>
-        <Tooltip title="Copier le lien permanent">
-          <Button
-            variant="contained"
-            onClick={handleCopyPermalink}
-            color="secondary"
-            size="small"
-            sx={{ minWidth: 'auto', px: 2, height: { xs: '32px', sm: '40px' } }}
-          >
-            <ShareIcon fontSize="small" />
-          </Button>
-        </Tooltip>
+        <Box sx={{ display: 'flex', gap: 1, flexShrink: 0 }}>
+          <Tooltip title="Sélections récentes">
+            <Button
+              variant="contained"
+              onClick={onRecentlyPlayedToggle}
+              color={recentlyPlayedOnly ? 'primary' : 'secondary'}
+              size="small"
+              sx={{ minWidth: 'auto', px: 2, height: { xs: '32px', sm: '40px' } }}
+            >
+              <HistoryIcon fontSize="small" />
+            </Button>
+          </Tooltip>
+          <Tooltip title="Voir les statistiques">
+            <Button
+              variant="contained"
+              onClick={onStatsClick}
+              color="secondary"
+              size="small"
+              sx={{ minWidth: 'auto', px: 2, height: { xs: '32px', sm: '40px' } }}
+            >
+              <AssessmentIcon fontSize="small" />
+            </Button>
+          </Tooltip>
+          <Tooltip title="Jouer un épisode aléatoire basé sur les filtres">
+            <Button
+              variant="contained"
+              onClick={onRandomClick}
+              color="secondary"
+              size="small"
+              sx={{ minWidth: 'auto', px: 2, height: { xs: '32px', sm: '40px' } }}
+            >
+              <ShuffleIcon fontSize="small" />
+            </Button>
+          </Tooltip>
+          <Tooltip title="Copier le lien permanent">
+            <Button
+              variant="contained"
+              onClick={handleCopyPermalink}
+              color="secondary"
+              size="small"
+              sx={{ minWidth: 'auto', px: 2, height: { xs: '32px', sm: '40px' } }}
+            >
+              <ShareIcon fontSize="small" />
+            </Button>
+          </Tooltip>
+        </Box>
       </Box>
 
       <Snackbar
