@@ -14,44 +14,17 @@ This project provides a comprehensive archive browser for PunkRockRadio.ca shows
 ## Features
 
 ### Indexer Features
-- **Incremental Updates**: Only fetches new shows, skipping already-indexed content for efficiency
-- **Smart Rate Limiting**: 1-second delay between API requests to respect Mixcloud's rate limits
-- **Robust Error Handling**: Automatic retry logic with exponential backoff for failed requests
-- **Regex-Based Categorization**: Automatically categorizes shows into 30+ categories (e.g., "Le Pink Punk Show", "Esprit de Core")
-- **Tag Normalization**: Merges and normalizes tags using configurable mappings (e.g., "Hardcore punk" → "Hardcore")
-- **Extra Tags Support**: Add custom tags to specific shows via configuration
-- **Local Update Mode**: Update categories and tags without re-fetching from API
-- **Verbose Logging**: Detailed logging for debugging and monitoring
+
+The Python indexer efficiently manages the show database through incremental updates, only fetching new content while respecting Mixcloud's API rate limits with automatic retry logic. It automatically categorizes shows into 30+ categories using regex patterns and normalizes tags through configurable mappings. A local update mode allows re-categorization without API calls.
 
 ### Web Application Features
-- **Fuzzy Search**: Powered by Fuse.js, searches across show titles, tags, categories, and descriptions with typo tolerance and hyphen-to-space fallback
-- **Advanced Filtering**: 
-  - Text search with debouncing
-  - Year-based filtering
-  - Category filtering with icon indicators
-  - Tag filtering (multi-select autocomplete with chips; intersection matching)
-  - Recently-played filter to show only listened episodes
-  - Combined filter support
-- **Advanced Statistics**: 
-  - Comprehensive dashboard (accessible via `?stats=1`)
-  - Global archive totals (episodes, minutes, hours, days, weeks, months)
-  - Individual show-by-show statistics with visual indicators and clickable category cards that navigate back to the filtered show list
-  - **Period Selector**: Filter stats by 1 month, 3 months, 6 months, 1 year, or all-time (`?period=`)
-  - **Chart Grouping Override**: Force the trends chart to group by week or month instead of the period-derived default (`?grouping=`)
-  - **Trends Chart**: Interactive dual-axis line chart plotting episodes and total minutes, grouped by week/month/year with continuous-bucket filling
-- **Sort Options**: Sort by newest or oldest
-- **Shuffle Button**: Pick a random show from the currently filtered results to play in the player
-- **Infinite Scroll**: Smooth pagination loading 12 shows at a time
-- **Permalink Support**: Share specific searches, filters, and selected shows via URL with full state synchronization (including tags and recently-played view)
-- **Recently Played & Resume Playback**: Up to 20 played episodes are persisted in `localStorage` with playback position and completion status; the Mixcloud player seeks to the saved position on load so listeners resume where they left off. Progress is throttled to save at most once every 10 seconds per show
-  - Progress bar and completion checkmark overlays on show cards in the recently-played view
-  - Clear-history confirmation dialog
-- **Embedded Mixcloud Player**: Widget integration with loading states and postMessage-based event handling (play, pause, progress, ended)
-- **Back-to-Top Button**: Floating action button that appears after scrolling and smoothly returns to the top
-- **Responsive Design**: Mobile-optimized Material-UI components
-- **Dark Theme**: Premium Blue Gray color scheme with glassmorphism effects
-- **Share Functionality**: One-click permalink copying with toast notifications
-- **SEO Optimized**: Open Graph meta tags for social media previews, plus automatic sitemap.xml generation and shows.json minification at build time (limitation of a static app)
+
+- **Fuzzy Search**: Fuse.js-powered search across titles, tags, categories, and descriptions with typo tolerance
+- **Advanced Filtering**: Text search, year/category/tag filters (multi-select with intersection matching), recently-played filter, and combined filter support
+- **Statistics Dashboard**: Accessible via `?stats=1` with period selector, trends chart (episodes & minutes over time), and clickable category cards
+- **Playback Features**: Embedded Mixcloud player with resume playback, progress tracking (throttled saves), shuffle button, and recently-played history (up to 20 episodes with progress indicators)
+- **Navigation & UX**: Infinite scroll, sort by date, back-to-top button, permalink sharing with full state sync
+- **Design**: Responsive Material-UI, dark theme with glassmorphism, SEO optimized with Open Graph tags and auto-generated sitemap
 
 ## Project Structure
 
