@@ -24,54 +24,42 @@ This project provides a comprehensive archive browser for PunkRockRadio.ca shows
 - **Verbose Logging**: Detailed logging for debugging and monitoring
 
 ### Web Application Features
-- **Fuzzy Search**: Powered by Fuse.js, searches across show titles, tags, and categories with typo tolerance
+- **Fuzzy Search**: Powered by Fuse.js, searches across show titles, tags, categories, and descriptions with typo tolerance and hyphen-to-space fallback
 - **Advanced Filtering**: 
   - Text search with debouncing
   - Year-based filtering
   - Category filtering with icon indicators
+  - Tag filtering (multi-select autocomplete with chips; intersection matching)
+  - Recently-played filter to show only listened episodes
   - Combined filter support
 - **Advanced Statistics**: 
   - Comprehensive dashboard (accessible via `?stats=1`)
   - Global archive totals (episodes, minutes, hours, days, weeks, months)
-  - Individual show-by-show statistics with visual indicators
-  - **Yearly Trends Chart**: Interactive dual-axis line chart plotting episodes and total minutes per year
-- **Multiple Sort Options**: Sort by newest, oldest, or random
+  - Individual show-by-show statistics with visual indicators and clickable category cards that navigate back to the filtered show list
+  - **Period Selector**: Filter stats by 1 month, 3 months, 6 months, 1 year, or all-time (`?period=`)
+  - **Chart Grouping Override**: Force the trends chart to group by week or month instead of the period-derived default (`?grouping=`)
+  - **Trends Chart**: Interactive dual-axis line chart plotting episodes and total minutes, grouped by week/month/year with continuous-bucket filling
+- **Sort Options**: Sort by newest or oldest
+- **Shuffle Button**: Pick a random show from the currently filtered results to play in the player
 - **Infinite Scroll**: Smooth pagination loading 12 shows at a time
-- **Permalink Support**: Share specific searches and shows via URL with full state synchronization
-- **Embedded Mixcloud Player**: Picture widget integration with loading states
+- **Permalink Support**: Share specific searches, filters, and selected shows via URL with full state synchronization (including tags and recently-played view)
+- **Recently Played & Resume Playback**: Up to 20 played episodes are persisted in `localStorage` with playback position and completion status; the Mixcloud player seeks to the saved position on load so listeners resume where they left off. Progress is throttled to save at most once every 10 seconds per show
+  - Progress bar and completion checkmark overlays on show cards in the recently-played view
+  - Clear-history confirmation dialog
+- **Embedded Mixcloud Player**: Widget integration with loading states and postMessage-based event handling (play, pause, progress, ended)
+- **Back-to-Top Button**: Floating action button that appears after scrolling and smoothly returns to the top
 - **Responsive Design**: Mobile-optimized Material-UI components
 - **Dark Theme**: Premium Blue Gray color scheme with glassmorphism effects
 - **Share Functionality**: One-click permalink copying with toast notifications
-- **SEO Optimized**: Open Graph meta tags for social media previews (limitation of a static app)
+- **SEO Optimized**: Open Graph meta tags for social media previews, plus automatic sitemap.xml generation and shows.json minification at build time (limitation of a static app)
 
 ## Project Structure
 
 ```
 ./
-├── indexer/                # Python indexing scripts
-│   ├── main.py             # Entry point with CLI
-│   ├── fetcher.py          # Mixcloud API client
-│   ├── processor.py        # Data processing and categorization
-│   ├── config.json         # Show patterns and tag mappings
-│   ├── constants.py        # Configuration constants
-│   └── indexer_types.py    # Type definitions
-├── web/                    # React web application
-│   ├── src/
-│   │   ├── components/     # React components
-│   │   │   ├── common/     # Shared components
-│   │   │   ├── filters/    # Filter components
-│   │   │   ├── player/     # Mixcloud player
-│   │   │   └── shows/      # Show list and cards
-│   │   ├── hooks/          # Custom React hooks
-│   │   ├── types/          # TypeScript type definitions
-│   │   ├── utils/          # Utility functions
-│   │   └── constants/      # App constants
-│   ├── public/
-│   │   └── shows.json      # Generated show index
-│   └── package.json        # Dependencies and scripts
+├── indexer/                # Python indexing scripts and config
+├── web/                    # React web application, build scripts and show index
 ├── .github/workflows/      # GitHub Actions
-│   ├── deploy.yml          # Deploy to GitHub Pages
-│   └── update_index.yml    # Daily indexing job
 ```
 
 ## Prerequisites
@@ -204,25 +192,6 @@ Shows are categorized using regex patterns defined in `indexer/config.json`. The
    python indexer/main.py --local-update --output web/public/shows.json
    ```
 
-## Technical Stack
-
-### Indexer
-- **Language**: Python 3.10+
-- **HTTP Client**: `requests` with retry logic and connection pooling
-- **Data Processing**: Native Python with regex for pattern matching
-- **Error Handling**: Custom exception hierarchy with detailed logging
-
-### Web Application
-- **Framework**: React 19.2.0
-- **Language**: TypeScript 5.9.3
-- **Build Tool**: Vite 7.2.4
-- **UI Library**: Material-UI (MUI) 7.3.5
-- **Search**: Fuse.js 7.1.0
-- **Charts**: Recharts 2.15.0
-- **Date Handling**: date-fns 4.1.0
-- **Styling**: Emotion (CSS-in-JS)
-- **Code Quality**: ESLint, Prettier, TypeScript strict mode
-
 ## API Integration
 
 The indexer interacts with the Mixcloud API to fetch show data.
@@ -235,10 +204,6 @@ The indexer interacts with the Mixcloud API to fetch show data.
 - **Rate Limiting**: 1-second delay between requests
 - **Timeout**: 30 seconds per request
 - **Retry Strategy**: 3 retries with exponential backoff
-
-## Deployment (CICD)
-
-The project uses GitHub Actions for automated deployment and maintenance.
 
 ### Daily Indexing Workflow
 
@@ -253,29 +218,9 @@ The project uses GitHub Actions for automated deployment and maintenance.
   4. Runs indexer (incremental update)
   5. Commits and pushes `shows.json` if changes detected
 
-### Deployment Workflow
-
-**File**: `.github/workflows/deploy.yml`
-
-- **Trigger**: Push to `main` branch or manual dispatch
-- **Process**:
-  1. Checks out repository
-  2. Sets up Node.js 20
-  3. Installs web app dependencies
-  4. Copies `shows.json` to `web/public/`
-  5. Builds production bundle
-  6. Deploys to GitHub Pages
-
 ## Development
 
 ### Code Quality Tools
-
-The web application includes comprehensive tooling:
-
-- **ESLint**: Enforces code style and catches common errors
-- **Prettier**: Automatic code formatting
-- **TypeScript**: Static type checking
-- **React Hooks Linting**: Ensures proper hook usage
 
 Run quality checks:
 ```bash
