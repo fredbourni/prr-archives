@@ -5,9 +5,22 @@ import type { Show } from '@types';
 interface PlayerHeaderProps {
   title: string;
   show: Show | null;
+  initialPosition?: number;
+  onPlay?: () => void;
+  onPause?: (position: number, duration: number) => void;
+  onEnded?: () => void;
+  onProgress?: (position: number, duration: number) => void;
 }
 
-export const PlayerHeader = ({ title, show }: PlayerHeaderProps) => {
+export const PlayerHeader = ({
+  title,
+  show,
+  initialPosition,
+  onPlay,
+  onPause,
+  onEnded,
+  onProgress,
+}: PlayerHeaderProps) => {
   if (!show) return null;
 
   return (
@@ -15,7 +28,15 @@ export const PlayerHeader = ({ title, show }: PlayerHeaderProps) => {
       <Typography variant="h5" sx={{ mb: 1, fontWeight: 'bold', color: 'primary.main' }}>
         {title}
       </Typography>
-      <Player showSlug={show.slug} />
+      <Player
+        key={show.slug}
+        showSlug={show.slug}
+        initialPosition={initialPosition}
+        onPlay={onPlay}
+        onPause={onPause}
+        onEnded={onEnded}
+        onProgress={onProgress}
+      />
     </Box>
   );
 };

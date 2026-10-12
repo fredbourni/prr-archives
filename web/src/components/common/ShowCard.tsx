@@ -1,5 +1,6 @@
-import { Card, CardContent, CardMedia, Typography, Box, Chip, IconButton } from '@mui/material';
+import { Card, CardContent, CardMedia, Typography, Box, Chip, IconButton, LinearProgress } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { format } from 'date-fns';
 import type { Show } from '@types';
 import { formatDuration } from '@utils/format';
@@ -11,9 +12,10 @@ interface ShowCardProps {
   onClick: () => void;
   onTagClick?: (tag: string) => void;
   onRemove?: () => void;
+  progress?: { position: number; duration: number; completed: boolean };
 }
 
-export const ShowCard = ({ show, isSelected = false, onClick, onTagClick, onRemove }: ShowCardProps) => {
+export const ShowCard = ({ show, isSelected = false, onClick, onTagClick, onRemove, progress }: ShowCardProps) => {
   return (
     <Card
       sx={{
@@ -44,6 +46,19 @@ export const ShowCard = ({ show, isSelected = false, onClick, onTagClick, onRemo
           decoding="async"
           sx={{ aspectRatio: '16 / 9', objectFit: 'cover' }}
         />
+        {progress?.completed && (
+          <CheckCircleIcon
+            fontSize="medium"
+            sx={{
+              position: 'absolute',
+              top: 6,
+              left: 6,
+              color: 'success.main',
+              bgcolor: 'rgba(0, 0, 0, 0.5)',
+              borderRadius: '50%',
+            }}
+          />
+        )}
         {onRemove && (
           <IconButton
             size="small"
@@ -79,6 +94,23 @@ export const ShowCard = ({ show, isSelected = false, onClick, onTagClick, onRemo
         >
           {formatDuration(show.audio_length)}
         </Box>
+        {progress && progress.duration > 0 && (
+          <LinearProgress
+            variant="determinate"
+            value={Math.min(100, (progress.position / progress.duration) * 100)}
+            sx={{
+              position: 'absolute',
+              bottom: 0,
+              left: 0,
+              width: '100%',
+              height: 4,
+              bgcolor: 'rgba(255, 255, 255, 0.2)',
+              '& .MuiLinearProgress-bar': {
+                bgcolor: 'primary.main',
+              },
+            }}
+          />
+        )}
       </Box>
       <CardContent sx={{ flexGrow: 1 }}>
         <Typography

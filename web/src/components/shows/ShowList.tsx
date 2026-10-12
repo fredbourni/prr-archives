@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { Box, Typography } from '@mui/material';
 import type { Show } from '@types';
 import { useFilters } from '@hooks/useFilters';
@@ -32,7 +32,14 @@ export const ShowList = ({ shows, onStatsClick }: ShowListProps) => {
   const [playerTitle, setPlayerTitle] = useState(PLAYER_TITLE_LATEST);
   const [shouldSyncShow, setShouldSyncShow] = useState(false);
   const [recentlyPlayedOnly, setRecentlyPlayedOnly] = useState(false);
-  const { recentlyPlayed, addToRecentlyPlayed, removeFromRecentlyPlayed, clearRecentlyPlayed } = useRecentlyPlayed();
+  const {
+    recentlyPlayed,
+    addToRecentlyPlayed,
+    updateProgress,
+    markCompleted,
+    removeFromRecentlyPlayed,
+    clearRecentlyPlayed,
+  } = useRecentlyPlayed();
 
   const {
     search,
@@ -92,7 +99,6 @@ export const ShowList = ({ shows, onStatsClick }: ShowListProps) => {
         setSelectedShow(showFromUrl);
         setPlayerTitle(PLAYER_TITLE_PERMALINK);
         setShouldSyncShow(true);
-        addToRecentlyPlayed(showFromUrl.slug);
         markLoaded();
         return;
       }
@@ -106,7 +112,7 @@ export const ShowList = ({ shows, onStatsClick }: ShowListProps) => {
     setPlayerTitle(PLAYER_TITLE_LATEST);
     setShouldSyncShow(false);
     markLoaded();
-  }, [shows, addToRecentlyPlayed, setSearch, setDebouncedSearch, setCategoryFilter, setYearFilter, setSortOrder, setTagFilter, setRecentlyPlayedOnly]);
+  }, [shows, setSearch, setDebouncedSearch, setCategoryFilter, setYearFilter, setSortOrder, setTagFilter, setRecentlyPlayedOnly]);
 
   const { markInitialShowLoaded } = usePermalink({
     debouncedSearch,
@@ -153,7 +159,6 @@ export const ShowList = ({ shows, onStatsClick }: ShowListProps) => {
       setSelectedShow(random);
       setPlayerTitle(PLAYER_TITLE_RANDOM);
       setShouldSyncShow(true);
-      addToRecentlyPlayed(random.slug);
     }
   };
 
@@ -161,7 +166,6 @@ export const ShowList = ({ shows, onStatsClick }: ShowListProps) => {
     setSelectedShow(show);
     setPlayerTitle(PLAYER_TITLE_SELECTED);
     setShouldSyncShow(true);
-    addToRecentlyPlayed(show.slug);
   };
 
   const handleTagClick = (tag: string) => {
@@ -183,10 +187,49 @@ export const ShowList = ({ shows, onStatsClick }: ShowListProps) => {
     setRecentlyPlayedOnly((prev) => !prev);
   };
 
+  // Look up the saved playback position for the currently selected show so
+  // the player can seek to it on load.
+  const currentEntry = selectedShow
+    ? recentlyPlayed.find((e) => e.slug === selectedShow.slug)
+    : undefined;
+  const initialPosition = currentEntry?.position ?? 0;
+
+  // Throttle progress saves to at most once every 10 seconds per show.
+  const lastSavedPositionRef = useRef<number>(-1);
+
+  // Reset the throttle counter when the selected show changes so a new
+  // episode can save its first progress update immediately.
+  useEffect(() => {
+    lastSavedPositionRef.current = -1;
+  }, [selectedShow?.slug]);
+
+  const handlePlay = () => {
+    if (selectedShow) addToRecentlyPlayed(selectedShow.slug);
+  };
+  const handleProgress = (position: number, duration: number) => {
+    if (!selectedShow) return;
+    if (position - lastSavedPositionRef.current < 10) return;
+    lastSavedPositionRef.current = position;
+    updateProgress(selectedShow.slug, position, duration);
+  };
+  const handlePause = (position: number, duration: number) => {
+    if (!selectedShow) return;
+    lastSavedPositionRef.current = position;
+    updateProgress(selectedShow.slug, position, duration);
+  };
+  const handleEnded = () => {
+    if (selectedShow) markCompleted(selectedShow.slug);
+  };
+
   // Apply recently-played filter on top of the filtered shows
   const visibleShows = recentlyPlayedOnly
-    ? filteredShows.filter((s) => recentlyPlayed.includes(s.slug))
+    ? filteredShows.filter((s) => recentlyPlayed.some((e) => e.slug === s.slug))
     : filteredShows;
+
+  // Build a lookup of saved progress for cards in the recently played view.
+  const progressMap = recentlyPlayedOnly
+    ? new Map(recentlyPlayed.map((e) => [e.slug, { position: e.position, duration: e.duration, completed: e.completed }]))
+    : undefined;
 
   const isFiltering =
     search !== '' ||
@@ -220,7 +263,15 @@ export const ShowList = ({ shows, onStatsClick }: ShowListProps) => {
         onStatsClick={onStatsClick}
       />
 
-      <PlayerHeader title={playerTitle} show={selectedShow} />
+      <PlayerHeader
+        title={playerTitle}
+        show={selectedShow}
+        initialPosition={initialPosition}
+        onPlay={handlePlay}
+        onPause={handlePause}
+        onEnded={handleEnded}
+        onProgress={handleProgress}
+      />
 
       {isFiltering && (
         <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
@@ -236,6 +287,7 @@ export const ShowList = ({ shows, onStatsClick }: ShowListProps) => {
           onTagClick={handleTagClick}
           onResetFilters={handleResetFilters}
           onRemoveShow={recentlyPlayedOnly ? (show) => removeFromRecentlyPlayed(show.slug) : undefined}
+          progressMap={progressMap}
         />
       </Box>
     </Box>

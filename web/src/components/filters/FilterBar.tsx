@@ -84,7 +84,7 @@ export const FilterBar = ({
         <SortFilter value={sortOrder} onChange={onSortChange} />
         <TagFilter value={tagFilter} tags={tags} onChange={onTagChange} />
         <Box sx={{ display: 'flex', gap: 1, flexShrink: 0 }}>
-          <Tooltip title="Sélections récentes">
+          <Tooltip title="Écoutés récemment">
             <Button
               variant="contained"
               onClick={onRecentlyPlayedToggle}
@@ -170,7 +170,7 @@ export const FilterBar = ({
         <DialogTitle>Effacer l'historique</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            Voulez-vous vraiment effacer toutes les sélections récentes ?
+            Voulez-vous vraiment effacer tous les épisodes écoutés récemment ?
           </DialogContentText>
         </DialogContent>
         <DialogActions>

@@ -4,6 +4,9 @@ export const DEBOUNCE_DELAY = 500;
 export const FUSE_THRESHOLD = 0.4;
 export const SNACKBAR_AUTO_HIDE_DURATION = 3000;
 
+// Set to true to enable verbose Mixcloud player debug logging in the console.
+export const DEBUG_PLAYER = false;
+
 // Player constants
 export const PLAYER_HEIGHT = 120;
 

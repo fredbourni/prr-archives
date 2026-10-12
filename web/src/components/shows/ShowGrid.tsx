@@ -14,6 +14,7 @@ interface ShowGridProps {
     onTagClick?: (tag: string) => void;
     onResetFilters?: () => void;
     onRemoveShow?: (show: Show) => void;
+    progressMap?: Map<string, { position: number; duration: number; completed: boolean }>;
 }
 
 const EmptyState = ({ onReset }: { onReset?: () => void }) => (
@@ -62,7 +63,7 @@ const EmptyState = ({ onReset }: { onReset?: () => void }) => (
     </Box>
 );
 
-export const ShowGrid = ({ shows, onShowClick, selectedShowSlug, onTagClick, onResetFilters, onRemoveShow }: ShowGridProps) => {
+export const ShowGrid = ({ shows, onShowClick, selectedShowSlug, onTagClick, onResetFilters, onRemoveShow, progressMap }: ShowGridProps) => {
     const [displayedCount, setDisplayedCount] = useState(BATCH_SIZE);
 
     // Reset displayed count when shows change
@@ -96,6 +97,7 @@ export const ShowGrid = ({ shows, onShowClick, selectedShowSlug, onTagClick, onR
                             isSelected={show.slug === selectedShowSlug}
                             onTagClick={onTagClick}
                             onRemove={onRemoveShow ? () => onRemoveShow(show) : undefined}
+                            progress={progressMap?.get(show.slug)}
                             onClick={() => {
                                 onShowClick(show);
                                 window.scrollTo({ top: 0, behavior: 'smooth' });
