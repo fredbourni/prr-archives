@@ -1,5 +1,49 @@
 [
   {
+    "name": "Syndrome Punk Rock - 09 Octobre 2026",
+    "slug": "syndrome-punk-rock-09-octobre-2026",
+    "created_time": "2026-10-12T17:00:41Z",
+    "picture_key": "extaudio/a/7/6/1/d851-915c-42af-88a1-36196970a276",
+    "tags": [
+      "Hardcore",
+      "Pop punk",
+      "Punk",
+      "Ska punk",
+      "Skate punk"
+    ],
+    "category": "Syndrome Punk Rock",
+    "audio_length": 2950
+  },
+  {
+    "name": "Skampi Valencia Show - 08 Octobre 2026 - Episode 02",
+    "slug": "skampi-valencia-show-08-octobre-2026-episode-02",
+    "created_time": "2026-10-12T16:53:00Z",
+    "picture_key": "extaudio/9/f/5/4/18ee-abc0-4e58-a494-9b05fe2c9447",
+    "tags": [
+      "Hardcore",
+      "Punk",
+      "Ska punk",
+      "Skate punk"
+    ],
+    "category": "Skampi Valencia Show",
+    "audio_length": 2978
+  },
+  {
+    "name": "Le Punk Rock Show du Matin - 08 Octobre 2026 - #896",
+    "slug": "le-punk-rock-show-du-matin-08-octobre-2026-896",
+    "created_time": "2026-10-12T16:47:43Z",
+    "picture_key": "extaudio/9/e/1/0/69b8-3f30-478b-a4da-ca2b5020eca7",
+    "tags": [
+      "Hardcore",
+      "Pop punk",
+      "Punk",
+      "Ska punk",
+      "Skate punk"
+    ],
+    "category": "Le Punk Rock Show du Matin",
+    "audio_length": 1930
+  },
+  {
     "name": "Le Punk Rock Show du Matin - 07 Octobre 2026 - #895",
     "slug": "le-punk-rock-show-du-matin-07-octobre-2026-895",
     "created_time": "2026-10-08T12:16:17Z",
