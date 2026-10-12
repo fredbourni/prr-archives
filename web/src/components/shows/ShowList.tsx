@@ -32,7 +32,7 @@ export const ShowList = ({ shows, onStatsClick }: ShowListProps) => {
   const [playerTitle, setPlayerTitle] = useState(PLAYER_TITLE_LATEST);
   const [shouldSyncShow, setShouldSyncShow] = useState(false);
   const [recentlyPlayedOnly, setRecentlyPlayedOnly] = useState(false);
-  const { recentlyPlayed, addToRecentlyPlayed } = useRecentlyPlayed();
+  const { recentlyPlayed, addToRecentlyPlayed, removeFromRecentlyPlayed, clearRecentlyPlayed } = useRecentlyPlayed();
 
   const {
     search,
@@ -208,12 +208,14 @@ export const ShowList = ({ shows, onStatsClick }: ShowListProps) => {
         tagFilter={tagFilter}
         categoryImages={categoryImages}
         recentlyPlayedOnly={recentlyPlayedOnly}
+        recentlyPlayedCount={recentlyPlayed.length}
         onSearchChange={setSearch}
         onCategoryChange={setCategoryFilter}
         onYearChange={setYearFilter}
         onSortChange={setSortOrder}
         onTagChange={setTagFilter}
         onRecentlyPlayedToggle={handleRecentlyPlayedToggle}
+        onClearRecentlyPlayed={clearRecentlyPlayed}
         onRandomClick={handleRandomShow}
         onStatsClick={onStatsClick}
       />
@@ -233,6 +235,7 @@ export const ShowList = ({ shows, onStatsClick }: ShowListProps) => {
           selectedShowSlug={selectedShow?.slug ?? null}
           onTagClick={handleTagClick}
           onResetFilters={handleResetFilters}
+          onRemoveShow={recentlyPlayedOnly ? (show) => removeFromRecentlyPlayed(show.slug) : undefined}
         />
       </Box>
     </Box>

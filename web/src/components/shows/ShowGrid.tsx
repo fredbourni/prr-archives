@@ -13,6 +13,7 @@ interface ShowGridProps {
     selectedShowSlug: string | null;
     onTagClick?: (tag: string) => void;
     onResetFilters?: () => void;
+    onRemoveShow?: (show: Show) => void;
 }
 
 const EmptyState = ({ onReset }: { onReset?: () => void }) => (
@@ -61,7 +62,7 @@ const EmptyState = ({ onReset }: { onReset?: () => void }) => (
     </Box>
 );
 
-export const ShowGrid = ({ shows, onShowClick, selectedShowSlug, onTagClick, onResetFilters }: ShowGridProps) => {
+export const ShowGrid = ({ shows, onShowClick, selectedShowSlug, onTagClick, onResetFilters, onRemoveShow }: ShowGridProps) => {
     const [displayedCount, setDisplayedCount] = useState(BATCH_SIZE);
 
     // Reset displayed count when shows change
@@ -94,6 +95,7 @@ export const ShowGrid = ({ shows, onShowClick, selectedShowSlug, onTagClick, onR
                             show={show}
                             isSelected={show.slug === selectedShowSlug}
                             onTagClick={onTagClick}
+                            onRemove={onRemoveShow ? () => onRemoveShow(show) : undefined}
                             onClick={() => {
                                 onShowClick(show);
                                 window.scrollTo({ top: 0, behavior: 'smooth' });

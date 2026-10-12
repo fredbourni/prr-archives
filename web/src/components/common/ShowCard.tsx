@@ -1,4 +1,5 @@
-import { Card, CardContent, CardMedia, Typography, Box, Chip } from '@mui/material';
+import { Card, CardContent, CardMedia, Typography, Box, Chip, IconButton } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
 import { format } from 'date-fns';
 import type { Show } from '@types';
 import { formatDuration } from '@utils/format';
@@ -9,9 +10,10 @@ interface ShowCardProps {
   isSelected?: boolean;
   onClick: () => void;
   onTagClick?: (tag: string) => void;
+  onRemove?: () => void;
 }
 
-export const ShowCard = ({ show, isSelected = false, onClick, onTagClick }: ShowCardProps) => {
+export const ShowCard = ({ show, isSelected = false, onClick, onTagClick, onRemove }: ShowCardProps) => {
   return (
     <Card
       sx={{
@@ -42,6 +44,25 @@ export const ShowCard = ({ show, isSelected = false, onClick, onTagClick }: Show
           decoding="async"
           sx={{ aspectRatio: '16 / 9', objectFit: 'cover' }}
         />
+        {onRemove && (
+          <IconButton
+            size="small"
+            onClick={(e) => {
+              e.stopPropagation();
+              onRemove();
+            }}
+            sx={{
+              position: 'absolute',
+              top: 4,
+              right: 4,
+              bgcolor: 'rgba(0, 0, 0, 0.6)',
+              color: 'white',
+              '&:hover': { bgcolor: 'rgba(0, 0, 0, 0.8)' },
+            }}
+          >
+            <CloseIcon fontSize="small" />
+          </IconButton>
+        )}
         <Box
           sx={{
             position: 'absolute',

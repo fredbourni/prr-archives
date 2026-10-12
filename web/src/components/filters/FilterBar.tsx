@@ -1,9 +1,10 @@
-import { Box, Button, Tooltip, Snackbar, Alert } from '@mui/material';
+import { Box, Button, Tooltip, Snackbar, Alert, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@mui/material';
 import { useState } from 'react';
 import ShuffleIcon from '@mui/icons-material/Shuffle';
 import ShareIcon from '@mui/icons-material/Share';
 import AssessmentIcon from '@mui/icons-material/Assessment';
 import HistoryIcon from '@mui/icons-material/History';
+import DeleteSweepIcon from '@mui/icons-material/DeleteSweep';
 import type { SortOrder } from '@hooks/useFilters';
 import { TextFilter } from './TextFilter';
 import { CategoryFilter } from './CategoryFilter';
@@ -23,12 +24,14 @@ interface FilterBarProps {
   tagFilter: string[];
   categoryImages: Map<string, string>;
   recentlyPlayedOnly: boolean;
+  recentlyPlayedCount: number;
   onSearchChange: (value: string) => void;
   onCategoryChange: (value: string) => void;
   onYearChange: (value: string) => void;
   onSortChange: (value: SortOrder) => void;
   onTagChange: (value: string[]) => void;
   onRecentlyPlayedToggle: () => void;
+  onClearRecentlyPlayed: () => void;
   onRandomClick: () => void;
   onStatsClick: () => void;
 }
@@ -44,16 +47,19 @@ export const FilterBar = ({
   tagFilter,
   categoryImages,
   recentlyPlayedOnly,
+  recentlyPlayedCount,
   onSearchChange,
   onCategoryChange,
   onYearChange,
   onSortChange,
   onTagChange,
   onRecentlyPlayedToggle,
+  onClearRecentlyPlayed,
   onRandomClick,
   onStatsClick,
 }: FilterBarProps) => {
   const [showCopiedMessage, setShowCopiedMessage] = useState(false);
+  const [showClearDialog, setShowClearDialog] = useState(false);
 
   const handleCopyPermalink = async () => {
     try {
@@ -89,6 +95,22 @@ export const FilterBar = ({
               <HistoryIcon fontSize="small" />
             </Button>
           </Tooltip>
+          {recentlyPlayedOnly && (
+            <Tooltip title="Effacer l'historique">
+              <span>
+                <Button
+                  variant="contained"
+                  onClick={() => setShowClearDialog(true)}
+                  color="secondary"
+                  size="small"
+                  disabled={recentlyPlayedCount === 0}
+                  sx={{ minWidth: 'auto', px: 2, height: { xs: '32px', sm: '40px' } }}
+                >
+                  <DeleteSweepIcon fontSize="small" />
+                </Button>
+              </span>
+            </Tooltip>
+          )}
           <Tooltip title="Voir les statistiques">
             <Button
               variant="contained"
@@ -140,6 +162,34 @@ export const FilterBar = ({
           Lien permanent copié!
         </Alert>
       </Snackbar>
+
+      <Dialog
+        open={showClearDialog}
+        onClose={() => setShowClearDialog(false)}
+      >
+        <DialogTitle>Effacer l'historique</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Voulez-vous vraiment effacer toutes les sélections récentes ?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setShowClearDialog(false)} variant="contained" color="primary">
+            Annuler
+          </Button>
+          <Button
+            onClick={() => {
+              onClearRecentlyPlayed();
+              setShowClearDialog(false);
+            }}
+            variant="outlined"
+            color="error"
+            autoFocus
+          >
+            Effacer
+          </Button>
+        </DialogActions>
+      </Dialog>
     </>
   );
 };

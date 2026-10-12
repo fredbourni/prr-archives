@@ -38,5 +38,27 @@ export const useRecentlyPlayed = () => {
     });
   }, []);
 
-  return { recentlyPlayed, addToRecentlyPlayed };
+  const removeFromRecentlyPlayed = useCallback((slug: string) => {
+    if (!slug) return;
+    setRecentlyPlayed((prev) => {
+      const next = prev.filter((s) => s !== slug);
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
+      } catch (err) {
+        console.error('Failed to write recently played:', err);
+      }
+      return next;
+    });
+  }, []);
+
+  const clearRecentlyPlayed = useCallback(() => {
+    setRecentlyPlayed([]);
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify([]));
+    } catch (err) {
+      console.error('Failed to write recently played:', err);
+    }
+  }, []);
+
+  return { recentlyPlayed, addToRecentlyPlayed, removeFromRecentlyPlayed, clearRecentlyPlayed };
 };
