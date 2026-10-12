@@ -8,8 +8,8 @@ To load the application: [https://fredbourni.github.io/prr-archives/](https://fr
 
 This project provides a comprehensive archive browser for PunkRockRadio.ca shows, consisting of two main components:
 
-1.  **Indexer (Python)**: Fetches show data from the Mixcloud API with intelligent rate limiting, categorizes shows using regex patterns, normalizes tags, and generates a static JSON index with incremental update support.
-2.  **Web Application (React + TypeScript + Vite)**: A modern, responsive web interface featuring fuzzy search, advanced filtering, infinite scroll, permalink support, and an embedded Mixcloud player with a premium dark theme.
+1.  **Indexer (Python)**: Fetches show data from the Mixcloud API, categorizes shows using regex patterns, normalizes tags, and generates a static JSON index with incremental update support.
+2.  **Web Application (React + TypeScript + Vite)**: A responsive web interface featuring fuzzy search, advanced filtering, infinite scroll, permalink support, and an embedded Mixcloud player with playback tracking.
 
 ## Features
 
