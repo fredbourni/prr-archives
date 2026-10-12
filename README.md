@@ -167,29 +167,14 @@ Shows are categorized using regex patterns defined in `indexer/config.json`. The
 
 ## API Integration
 
-The indexer interacts with the Mixcloud API to fetch show data.
+The indexer fetches show data from Mixcloud API (`punkrockradio` user) with 1-second delays between requests and 3-retry exponential backoff.
 
-**API Details:**
-- **Base URL**: `https://api.mixcloud.com`
-- **Endpoint**: `/{username}/cloudcasts/`
-- **User**: `punkrockradio`
-- **Pagination**: 100 shows per page
-- **Rate Limiting**: 1-second delay between requests
-- **Timeout**: 30 seconds per request
-- **Retry Strategy**: 3 retries with exponential backoff
+## Automation
 
-### Daily Indexing Workflow
-
-**File**: `.github/workflows/update_index.yml`
-
-- **Schedule**: Daily at midnight UTC (`0 0 * * *`)
-- **Trigger**: Can also be manually triggered via workflow_dispatch
-- **Process**:
-  1. Checks out repository
-  2. Sets up Python 3.10
-  3. Installs dependencies
-  4. Runs indexer (incremental update)
-  5. Commits and pushes `shows.json` if changes detected
+**Daily Index Updates** (`.github/workflows/update_index.yml`):
+- Runs daily at 11 AM & 11 PM UTC (weekdays only)
+- Performs incremental updates, commits changes if detected
+- Can be manually triggered with optional `--force-reindex` flag
 
 ## Development
 
