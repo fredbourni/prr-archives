@@ -1,5 +1,29 @@
 [
   {
+    "name": "The Yuri Rawk Show - 13 Octobre 2026 - Episode 02",
+    "slug": "the-yuri-rawk-show-13-octobre-2026-episode-02",
+    "created_time": "2026-10-13T12:32:55Z",
+    "picture_key": "extaudio/7/5/a/6/816b-1a86-4695-9e09-0d85a81a7e58",
+    "tags": [
+      "Pop punk",
+      "Punk"
+    ],
+    "category": "The Yuri Rawk Show",
+    "audio_length": 1914
+  },
+  {
+    "name": "L'Îlot Punk Rock - 06 Octobre 2026 - Julien Hogue",
+    "slug": "lîlot-punk-rock-06-octobre-2026-julien-hogue",
+    "created_time": "2026-10-13T12:31:09Z",
+    "picture_key": "extaudio/2/3/7/6/87c3-70c3-4dd4-81b0-a49af44eacb0",
+    "tags": [
+      "Punk",
+      "Skate punk"
+    ],
+    "category": "L'îlot Punk Rock",
+    "audio_length": 5918
+  },
+  {
     "name": "Syndrome Punk Rock - 09 Octobre 2026",
     "slug": "syndrome-punk-rock-09-octobre-2026",
     "created_time": "2026-10-12T17:00:41Z",
