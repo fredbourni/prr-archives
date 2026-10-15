@@ -1,7 +1,8 @@
-import { Card, CardContent, CardMedia, Typography, Box, Chip, IconButton, LinearProgress } from '@mui/material';
+import { Card, CardContent, CardMedia, Typography, Box, Chip, IconButton, LinearProgress, Tooltip } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { format } from 'date-fns';
+import { frCA } from 'date-fns/locale';
 import type { Show } from '@types';
 import { formatDuration } from '@utils/format';
 import { getShowImage } from '@utils/image';
@@ -17,6 +18,7 @@ interface ShowCardProps {
 
 export const ShowCard = ({ show, isSelected = false, onClick, onTagClick, onRemove, progress }: ShowCardProps) => {
   return (
+    <Tooltip title={`Publié le ${format(new Date(show.created_time), 'd MMMM yyyy', { locale: frCA })}`} arrow>
     <Card
       sx={{
         height: '100%',
@@ -121,9 +123,6 @@ export const ShowCard = ({ show, isSelected = false, onClick, onTagClick, onRemo
         >
           {show.name}
         </Typography>
-        <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
-          {format(new Date(show.created_time), 'MMM d, yyyy')}
-        </Typography>
         <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
           {show.tags.map((tag: string) => (
             <Chip
@@ -143,5 +142,6 @@ export const ShowCard = ({ show, isSelected = false, onClick, onTagClick, onRemo
         </Box>
       </CardContent>
     </Card>
+    </Tooltip>
   );
 };
