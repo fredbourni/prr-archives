@@ -18,7 +18,7 @@
         },
         {
             "name": "Le Punk Rock Show du Matin",
-            "regex": "Punk.*Matin"
+            "regex": "Punk.*rock.*show.*"
         },
         {
             "name": "The Beer Punk Show en Studio",
@@ -139,10 +139,6 @@
         {
             "name": "Le Dreadhawk Show",
             "regex": "Dreadhawk"
-        },
-        {
-            "name": "Le Punk Rock Show",
-            "regex": "Punk.*Rock.*Show"
         },
         {
             "name": "Show du Retour",
