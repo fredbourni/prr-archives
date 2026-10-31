@@ -1,5 +1,50 @@
 [
   {
+    "name": "Syndrome Punk Rock - 30 Octobre 2026",
+    "slug": "syndrome-punk-rock-30-octobre-2026",
+    "created_time": "2026-10-30T19:17:03Z",
+    "picture_key": "extaudio/8/3/2/8/d2f9-3fba-4b12-8d0c-09b31ec03f04",
+    "tags": [
+      "Hardcore",
+      "Pop punk",
+      "Punk",
+      "Ska punk",
+      "Skate punk"
+    ],
+    "category": "Syndrome Punk Rock",
+    "audio_length": 3599
+  },
+  {
+    "name": "Le Punk Rock Show du Matin - 29 Octobre 2026 - #903",
+    "slug": "le-punk-rock-show-du-matin-29-octobre-2026-903",
+    "created_time": "2026-10-30T18:33:02Z",
+    "picture_key": "extaudio/8/1/6/9/9970-c6af-4b76-b661-df77174b5f04",
+    "tags": [
+      "Hardcore",
+      "Pop punk",
+      "Punk",
+      "Ska punk",
+      "Skate punk"
+    ],
+    "category": "Le Punk Rock Show du Matin",
+    "audio_length": 1734
+  },
+  {
+    "name": "Le Punk Rock Show du Matin - 28 Octobre 2026 - #902",
+    "slug": "le-punk-rock-show-du-matin-28-octobre-2026-902",
+    "created_time": "2026-10-30T18:28:58Z",
+    "picture_key": "extaudio/1/a/3/d/c570-095c-4e3c-a5f0-db6c5d4f9e17",
+    "tags": [
+      "Hardcore",
+      "Pop punk",
+      "Punk",
+      "Ska punk",
+      "Skate punk"
+    ],
+    "category": "Le Punk Rock Show du Matin",
+    "audio_length": 1915
+  },
+  {
     "name": "The Yuri Rawk Show - 27 Octobre 2026 - Episode 4",
     "slug": "the-yuri-rawk-show-27-octobre-2026-episode-4",
     "created_time": "2026-10-29T12:06:27Z",
