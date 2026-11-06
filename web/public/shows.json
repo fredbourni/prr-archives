@@ -1,5 +1,31 @@
 [
   {
+    "name": "Skampi Valencia Show - 05 Novembre 2026 - Episode 04",
+    "slug": "skampi-valencia-show-05-novembre-2026-episode-04",
+    "created_time": "2026-11-05T23:17:49Z",
+    "picture_key": "extaudio/c/a/d/b/e540-bbc6-4632-bf42-47a1d09ca625",
+    "tags": [
+      "Hardcore",
+      "Punk",
+      "Ska punk",
+      "Skate punk"
+    ],
+    "category": "Skampi Valencia Show",
+    "audio_length": 4125
+  },
+  {
+    "name": "The Yuri Rawk Show - 04 Novembre 2026",
+    "slug": "the-yuri-rawk-show-04-novembre-2026",
+    "created_time": "2026-11-05T23:05:26Z",
+    "picture_key": "extaudio/0/1/f/a/a05b-cfc9-4384-8e7a-c4711152d295",
+    "tags": [
+      "Pop punk",
+      "Punk"
+    ],
+    "category": "The Yuri Rawk Show",
+    "audio_length": 1869
+  },
+  {
     "name": "Syndrome Punk Rock - 30 Octobre 2026",
     "slug": "syndrome-punk-rock-30-octobre-2026",
     "created_time": "2026-10-30T19:17:03Z",
