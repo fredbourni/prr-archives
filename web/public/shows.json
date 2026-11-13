@@ -1,5 +1,62 @@
 [
   {
+    "name": "Syndrome Punk Rock - 13 Novembre 2026",
+    "slug": "syndrome-punk-rock-13-novembre-2026",
+    "created_time": "2026-11-13T14:23:04Z",
+    "picture_key": "extaudio/b/0/e/a/9909-03e2-45fa-8c73-126acef514bf",
+    "tags": [
+      "Hardcore",
+      "Pop punk",
+      "Punk",
+      "Ska punk",
+      "Skate punk"
+    ],
+    "category": "Syndrome Punk Rock",
+    "audio_length": 3600
+  },
+  {
+    "name": "Le Punk Rock Show du Matin - 13 Novembre 2026 - #906",
+    "slug": "le-punk-rock-show-du-matin-13-novembre-2026-906",
+    "created_time": "2026-11-13T13:49:53Z",
+    "picture_key": "extaudio/e/a/7/6/789f-90b8-455e-a36b-090c858367d2",
+    "tags": [
+      "Hardcore",
+      "Pop punk",
+      "Punk",
+      "Ska punk",
+      "Skate punk"
+    ],
+    "category": "Le Punk Rock Show du Matin",
+    "audio_length": 3296
+  },
+  {
+    "name": "Le Punk Rock Show du Matin - 12 Novembre 2026 - #905",
+    "slug": "le-punk-rock-show-du-matin-12-novembre-2026-905",
+    "created_time": "2026-11-13T13:40:33Z",
+    "picture_key": "extaudio/1/f/7/0/682c-8da6-4e54-877c-33de274a880c",
+    "tags": [
+      "Hardcore",
+      "Pop punk",
+      "Punk",
+      "Ska punk",
+      "Skate punk"
+    ],
+    "category": "Le Punk Rock Show du Matin",
+    "audio_length": 1872
+  },
+  {
+    "name": "The Yuri Rawk Show - 10 Novembre 2026",
+    "slug": "the-yuri-rawk-show-10-novembre-2026",
+    "created_time": "2026-11-13T13:36:05Z",
+    "picture_key": "extaudio/f/0/d/3/02ca-42b3-4ac5-9ef1-bdbf2d27e8e8",
+    "tags": [
+      "Pop punk",
+      "Punk"
+    ],
+    "category": "The Yuri Rawk Show",
+    "audio_length": 1896
+  },
+  {
     "name": "Le Punk Rock Show du Matin - 09 Novembre 2026 - #904",
     "slug": "le-punk-rock-show-du-matin-09-novembre-2026-904",
     "created_time": "2026-11-12T13:15:27Z",
